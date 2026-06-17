@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import Preloader from "./Preloader";
 import SectionIndicator from "./SectionIndicator";
 import HeroSection from "./sections/HeroSection";
 import ReactionSection from "./sections/ReactionSection";
@@ -12,12 +14,23 @@ import InvestorsSection from "./sections/InvestorsSection";
 const SECTION_COUNT = 6;
 
 export default function SiteShell() {
+  const [loaded, setLoaded] = useState(false);
+  const onPreloaderDone = useCallback(() => setLoaded(true), []);
   const { active, scrollTo } = useActiveSection(SECTION_COUNT);
 
   return (
     <>
+      {/* Preloader — mounts first, unmounts once counting is done */}
+      {!loaded && <Preloader onComplete={onPreloaderDone} />}
+
       {/* Scroll container */}
-      <div id="scroll-container">
+      <div
+        id="scroll-container"
+        style={{
+          opacity: loaded ? 1 : 0,
+          transition: "opacity 0.4s ease",
+        }}
+      >
         <HeroSection />
         <ReactionSection />
         <ReactorIntelSection />
