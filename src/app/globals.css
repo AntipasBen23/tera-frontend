@@ -1,26 +1,193 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #05090D;
+  --bg-section: #070C11;
+  --surface: #0D1520;
+  --surface-alt: #111D2B;
+  --border: rgba(0, 220, 180, 0.12);
+
+  --accent: #00DCB4;
+  --accent-dim: rgba(0, 220, 180, 0.15);
+  --accent-glow: rgba(0, 220, 180, 0.35);
+  --violet: #7B61FF;
+  --violet-dim: rgba(123, 97, 255, 0.15);
+  --gold: #F5C542;
+
+  --text-primary: #EEF2F7;
+  --text-secondary: #7A8FA6;
+  --text-muted: #3D5166;
+
+  --font-display: var(--font-geist-sans);
+  --font-body: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --section-h: 100dvh;
+  --indicator-w: 3.5rem;
+}
+
+[data-theme="light"] {
+  --bg: #F2F6F9;
+  --bg-section: #F8FAFB;
+  --surface: #FFFFFF;
+  --surface-alt: #EEF3F7;
+  --border: rgba(0, 160, 130, 0.15);
+
+  --accent: #009E82;
+  --accent-dim: rgba(0, 158, 130, 0.1);
+  --accent-glow: rgba(0, 158, 130, 0.25);
+  --violet: #5B41EE;
+  --violet-dim: rgba(91, 65, 238, 0.1);
+
+  --text-primary: #0D1520;
+  --text-secondary: #4A6078;
+  --text-muted: #8EA5BE;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--text-primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+/* Scroll container — owns the scroll, children snap */
+#scroll-container {
+  height: 100dvh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+}
+
+/* Each section */
+.snap-section {
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Typography scale */
+.text-display {
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.text-headline {
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-subhead {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.text-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.text-mono {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.875rem;
+}
+
+/* Accent line */
+.accent-line {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+/* Glass card */
+.glass {
+  background: rgba(13, 21, 32, 0.6);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Glow effect on accent elements */
+.glow {
+  text-shadow: 0 0 40px var(--accent-glow);
+}
+
+/* Preloader */
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#preloader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Scrollbar */
+#scroll-container::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  #scroll-container {
+    scroll-behavior: auto;
+  }
 }
