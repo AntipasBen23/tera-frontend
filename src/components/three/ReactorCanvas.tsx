@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import ReactorModel from "./ReactorModel";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface Props {
   cutawayProgress: number;
@@ -11,6 +12,21 @@ interface Props {
 }
 
 export default function ReactorCanvas({ cutawayProgress, mouseX, mouseY }: Props) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div
+        className="w-full h-full rounded-2xl"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,220,180,0.08) 0%, transparent 80%)",
+          border: "1px solid var(--border)",
+        }}
+      />
+    );
+  }
+
   return (
     <Canvas
       camera={{ position: [0, 0, 6], fov: 42 }}

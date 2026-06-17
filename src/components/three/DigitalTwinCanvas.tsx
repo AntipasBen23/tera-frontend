@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import DigitalTwinModel from "./DigitalTwinModel";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface Props {
   twinProgress: number;
@@ -11,6 +12,22 @@ interface Props {
 }
 
 export default function DigitalTwinCanvas({ twinProgress, mouseX, mouseY }: Props) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div
+        className="w-full h-full rounded-2xl flex items-center justify-center"
+        style={{
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
+        }}
+      >
+        <span className="text-label opacity-40">Digital Twin</span>
+      </div>
+    );
+  }
+
   return (
     <Canvas
       camera={{ position: [0, 0, 6.5], fov: 40 }}
