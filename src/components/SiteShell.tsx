@@ -48,7 +48,7 @@ export default function SiteShell() {
       {/* Logo — independently fixed so it shares the same left column as hero content */}
       <div
         className="fixed z-50"
-        style={{ left: "72px", top: "120px" }}
+        style={{ left: "72px", top: "80px" }}
         aria-label="tera"
       >
         <span
