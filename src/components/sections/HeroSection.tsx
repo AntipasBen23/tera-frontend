@@ -140,7 +140,7 @@ export default function HeroSection() {
               fontFamily: "var(--font-lato), Lato, sans-serif",
             }}
           >
-            Explore the Platform
+            Explore
             <ArrowIcon />
           </button>
 
