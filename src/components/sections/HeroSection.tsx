@@ -121,10 +121,11 @@ export default function HeroSection() {
             fontSize: "16px",
             fontWeight: 400,
             lineHeight: 1.6,
+            marginTop: "28px",
           }}
         >
-          tera re-imagines how powerful molecules from nature are made —
-          building directly from the chemistry up, without the cell.
+          tera re-imagines how powerful molecules from nature are made.
+          Building directly from the chemistry up, without the cell.
         </p>
 
         {/* CTAs — beyond-aero style: solid + outlined */}
