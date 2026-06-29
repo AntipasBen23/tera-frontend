@@ -62,10 +62,10 @@ export default function EnzymeCanvas({ mouseX, mouseY }: Props) {
       style={{ background: "transparent" }}
       dpr={[1, 1.5]}
     >
-      <ambientLight intensity={0.4} />
-      <pointLight position={[5, 5, 5]} intensity={1.2} color="#00DCB4" />
-      <pointLight position={[-4, -3, 3]} intensity={0.6} color="#7B61FF" />
-      <pointLight position={[0, -5, 2]} intensity={0.4} color="#ffffff" />
+      <ambientLight intensity={0.35} />
+      <pointLight position={[5, 5, 5]}   intensity={1.4} color="#00B8CC" />
+      <pointLight position={[-4, -3, 3]} intensity={0.7} color="#44C038" />
+      <pointLight position={[0, -5, 2]}  intensity={0.3} color="#ffffff" />
 
       <Suspense fallback={null}>
         <EnzymeModel
