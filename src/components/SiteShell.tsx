@@ -67,11 +67,11 @@ export default function SiteShell() {
         <SectionIndicator active={active} onChange={scrollTo} />
       </div>
 
-      {/* Circular pulsing theme toggle — beyond-aero style, right side vertically centered */}
+      {/* Circular pulsing theme toggle — sits on center horizontal grid line */}
       <button
         onClick={toggleTheme}
         className="fixed z-50 hidden md:flex items-center group"
-        style={{ right: "68px", top: "50%", transform: "translateY(-50%)" }}
+        style={{ right: "110px", top: "52%", transform: "translateY(-50%)" }}
         aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       >
         {/* Hover label — appears to the left */}
@@ -82,27 +82,14 @@ export default function SiteShell() {
           {theme === "dark" ? "Light mode" : "Dark mode"}
         </span>
 
-        {/* Core dot + pulsing rings */}
-        <span className="relative flex items-center justify-center w-3 h-3">
-          {/* Ring 1 */}
-          <span
-            className="absolute inset-0 rounded-full"
-            style={{
-              border: "1px solid rgba(255,255,255,0.45)",
-              animation: "radarPing 2.4s ease-out infinite",
-            }}
-          />
-          {/* Ring 2 — offset delay */}
-          <span
-            className="absolute inset-0 rounded-full"
-            style={{
-              border: "1px solid rgba(255,255,255,0.3)",
-              animation: "radarPing 2.4s ease-out infinite",
-              animationDelay: "0.9s",
-            }}
-          />
+        {/* Core dot + 4 staggered pulsing rings */}
+        <span className="relative flex items-center justify-center w-2 h-2">
+          <span className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.5)",  animation: "radarPing 2.4s ease-out infinite", animationDelay: "0s"   }} />
+          <span className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.4)",  animation: "radarPing 2.4s ease-out infinite", animationDelay: "0.6s"  }} />
+          <span className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.3)",  animation: "radarPing 2.4s ease-out infinite", animationDelay: "1.2s"  }} />
+          <span className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.2)",  animation: "radarPing 2.4s ease-out infinite", animationDelay: "1.8s"  }} />
           {/* Core circle */}
-          <span className="relative block w-3 h-3 rounded-full bg-white/80" />
+          <span className="relative block w-2 h-2 rounded-full bg-white/85" />
         </span>
       </button>
 
