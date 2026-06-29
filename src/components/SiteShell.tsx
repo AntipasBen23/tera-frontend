@@ -84,7 +84,8 @@ export default function SiteShell() {
           {/* Menu button — white fill from bottom on hover */}
           <button
             onClick={() => setMenuOpen(true)}
-            className="relative flex items-center gap-3 px-5 py-2.5 overflow-hidden rounded-lg border border-white/30 group"
+            className="relative flex items-center gap-3 overflow-hidden rounded border border-white/30 group"
+            style={{ padding: "14px 20px" }}
             aria-label="Open menu"
           >
             {/* White fill slides up from bottom */}
