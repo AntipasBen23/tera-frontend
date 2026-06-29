@@ -1,14 +1,74 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const EnzymeCanvas = dynamic(() => import("@/components/three/EnzymeCanvas"), {
   ssr: false,
 });
 
-export default function HeroSection() {
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+interface Section {
+  eyebrow: string;
+  headline: [string, string];
+  body: string;
+  cta: string;
+  ctaSecondary?: string;
+}
+
+const SECTIONS: Section[] = [
+  {
+    eyebrow: "Cell-Free Biomanufacturing",
+    headline: ["Nature Works From", "First Principles"],
+    body: "Reimagining how the most powerful molecules are made. A cell-free platform harnessing enzyme engineering to produce nature's most valuable compounds — faster and purer than ever.",
+    cta: "Explore Now",
+    ctaSecondary: "Our Research",
+  },
+  {
+    eyebrow: "The Platform",
+    headline: ["Enzymes Engineered", "for Scale"],
+    body: "We design and optimize cell-free enzyme systems that convert raw biological inputs into high-value compounds — with precision and purity that living cells cannot match.",
+    cta: "Discover the Platform",
+  },
+  {
+    eyebrow: "Reactor Intelligence",
+    headline: ["AI Meets", "Biochemistry"],
+    body: "Our proprietary control system uses real-time AI to optimize enzyme conditions at every step — maximizing yield and purity, autonomously, at any scale.",
+    cta: "See the Technology",
+  },
+  {
+    eyebrow: "Applications",
+    headline: ["One Platform,", "Five Markets"],
+    body: "From life-saving pharmaceuticals to sustainable materials, tera's platform unlocks production of the most complex molecules across the industries that matter most.",
+    cta: "Explore Applications",
+  },
+  {
+    eyebrow: "Our Team",
+    headline: ["Scientists Who", "Think Different"],
+    body: "Built at the intersection of biochemistry, machine learning and engineering — tera brings deep expertise from the world's leading research institutions and biotech companies.",
+    cta: "Meet the Team",
+  },
+  {
+    eyebrow: "Investors",
+    headline: ["Partnering for a", "Biological Future"],
+    body: "We are backed by those who believe biology is the next great technology platform. Join us in reimagining how the world makes its most valuable molecules.",
+    cta: "Get in Touch",
+  },
+];
+
+interface Props {
+  onScrollProgress?: (progress: number) => void;
+}
+
+export default function HeroSection({ onScrollProgress }: Props) {
+  const sectionRef = useRef<HTMLElement>(null);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [activeSection, setActiveSection] = useState(0);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -26,88 +86,102 @@ export default function HeroSection() {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
-  const scrollToNext = () => {
-    const c = document.getElementById("scroll-container");
-    if (c) c.scrollTop = c.clientHeight;
-  };
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        id: "heroTrigger",
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=500%",
+        pin: true,
+        scrub: 0.8,
+        onUpdate: (self) => {
+          onScrollProgress?.(self.progress);
+          setActiveSection(Math.min(Math.floor(self.progress * 6), 5));
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [onScrollProgress]);
+
+  const s = SECTIONS[activeSection];
 
   return (
-    <section id="hero" className="snap-section relative overflow-hidden">
-
-      {/* Grid lines — static base + moving highlights (flat, no nesting) */}
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden"
+      style={{ height: "100dvh" }}
+    >
+      {/* Grid lines — static base + moving highlights */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-
-        {/* Static base lines */}
         <div className="absolute inset-y-0 w-px" style={{ left: "17%", background: "rgba(255,255,255,0.05)" }} />
         <div className="absolute inset-y-0 w-px" style={{ left: "50%", background: "rgba(255,255,255,0.05)" }} />
         <div className="absolute inset-y-0 w-px" style={{ left: "83%", background: "rgba(255,255,255,0.05)" }} />
-        <div className="absolute inset-x-0 h-px" style={{ top: "22%",  background: "rgba(255,255,255,0.05)" }} />
-        <div className="absolute inset-x-0 h-px" style={{ top: "52%",  background: "rgba(255,255,255,0.05)" }} />
-        <div className="absolute inset-x-0 h-px" style={{ top: "83%",  background: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute inset-x-0 h-px" style={{ top: "22%", background: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute inset-x-0 h-px" style={{ top: "52%", background: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute inset-x-0 h-px" style={{ top: "83%", background: "rgba(255,255,255,0.05)" }} />
 
-        {/* Moving highlights — vertical (slide downward) */}
         <div className="absolute w-px" style={{ top: 0, left: "17%", height: 180, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideDown 6s linear infinite" }} />
         <div className="absolute w-px" style={{ top: 0, left: "50%", height: 180, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideDown 8s linear infinite", animationDelay: "-3s" }} />
         <div className="absolute w-px" style={{ top: 0, left: "83%", height: 180, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideDown 5s linear infinite", animationDelay: "-5s" }} />
 
-        {/* Moving highlights — horizontal (slide rightward) */}
         <div className="absolute h-px" style={{ left: 0, top: "22%", width: 150, background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideRight 7s linear infinite", animationDelay: "-1s" }} />
         <div className="absolute h-px" style={{ left: 0, top: "52%", width: 150, background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideRight 9s linear infinite", animationDelay: "-4s" }} />
         <div className="absolute h-px" style={{ left: 0, top: "83%", width: 150, background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideRight 6s linear infinite", animationDelay: "-2s" }} />
-
       </div>
 
-      {/* 3D model — right 62% of viewport */}
-      <div className="absolute top-0 right-0 w-full md:w-[62%] h-full z-10">
+      {/* Full-screen 3D model */}
+      <div className="absolute inset-0 z-10">
         <EnzymeCanvas mouseX={mouse.x} mouseY={mouse.y} />
       </div>
 
-      {/* Left-fade — bleeds text area cleanly into the 3D scene */}
+      {/* Left-to-right gradient — keeps text readable over full-bleed model */}
       <div
-        className="absolute inset-0 z-20 pointer-events-none hidden md:block"
+        className="absolute inset-0 z-20 pointer-events-none"
         style={{
           background:
-            "linear-gradient(90deg, var(--bg) 28%, rgba(7,9,8,0.75) 52%, transparent 72%)",
+            "linear-gradient(90deg, var(--bg) 20%, rgba(7,9,8,0.88) 38%, rgba(7,9,8,0.35) 56%, transparent 76%)",
         }}
       />
 
       {/* Bottom vignette */}
       <div
         className="absolute inset-0 z-20 pointer-events-none"
-        style={{
-          background: "linear-gradient(to top, var(--bg) 0%, transparent 25%)",
-        }}
+        style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 30%)" }}
       />
 
-      {/* ── TEXT — same left column as the logo (120px) ── */}
-      <div className="absolute z-30 max-w-[500px]" style={{ left: "72px", bottom: "130px" }}>
-
-        {/* Eyebrow — 18px Lato matching reference, accent color preserved */}
+      {/* Content — key forces re-mount, CSS contentFadeIn fires on each section change */}
+      <div
+        key={activeSection}
+        className="absolute z-30 max-w-[500px]"
+        style={{ left: "72px", bottom: "130px", animation: "contentFadeIn 0.45s ease forwards" }}
+      >
         <p
-          className="mb-5"
           style={{
             color: "var(--accent)",
             fontFamily: "var(--font-lato), Lato, sans-serif",
             fontSize: "18px",
             fontWeight: 400,
+            marginBottom: "8px",
           }}
         >
-          Cell-Free Biomanufacturing
+          {s.eyebrow}
         </p>
 
-        {/* Headline — 32px Lato matching reference, colors preserved */}
         <h1
-          className="mb-5"
           style={{
             color: "var(--text-primary)",
             fontFamily: "var(--font-lato), Lato, sans-serif",
             fontSize: "32px",
             fontWeight: 700,
             lineHeight: 1.15,
-            margin: "6px 0px 0px",
+            margin: "6px 0 0",
           }}
         >
-          Nature Works From
+          {s.headline[0]}
           <br />
           <span
             className="glow"
@@ -118,13 +192,11 @@ export default function HeroSection() {
               backgroundClip: "text",
             }}
           >
-            First Principles
+            {s.headline[1]}
           </span>
         </h1>
 
-        {/* Body */}
         <p
-          className="mb-10"
           style={{
             maxWidth: "480px",
             color: "var(--text-secondary)",
@@ -133,19 +205,14 @@ export default function HeroSection() {
             fontWeight: 400,
             lineHeight: 1.6,
             marginTop: "28px",
+            marginBottom: "40px",
           }}
         >
-          Reimagining how the most powerful molecules are made. A cell-free
-          platform harnessing enzyme engineering to produce nature's most
-          valuable compounds, faster and purer than ever.
+          {s.body}
         </p>
 
-        {/* CTAs */}
-        <div className="flex items-center gap-4 flex-wrap" style={{ marginTop: "40px" }}>
-
-          {/* Primary — white bg, dark fill slides up on hover */}
+        <div className="flex items-center gap-4 flex-wrap">
           <button
-            onClick={scrollToNext}
             className="relative flex items-center gap-3 overflow-hidden group active:scale-95"
             style={{
               background: "#FFFFFF",
@@ -155,70 +222,48 @@ export default function HeroSection() {
           >
             <div className="absolute inset-0 bg-[#070908] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
             <span className="relative z-10 flex items-center gap-3 text-sm font-semibold text-[#070908] group-hover:text-white transition-colors duration-300">
-              Explore Now
+              {s.cta}
               <ArrowIcon />
             </span>
           </button>
 
-          {/* Ghost — transparent, white fill slides up on hover */}
-          <button
-            className="relative flex items-center gap-3 overflow-hidden group active:scale-95"
-            style={{
-              background: "transparent",
-              border: "1.5px solid rgba(238,242,247,0.45)",
-              padding: "14px 20px",
-              fontFamily: "var(--font-lato), Lato, sans-serif",
-            }}
-          >
-            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-            <span className="relative z-10 flex items-center gap-3 text-sm font-semibold text-white group-hover:text-[#070908] transition-colors duration-300">
-              Our Research
-              <ArrowIcon />
-            </span>
-          </button>
-
+          {s.ctaSecondary && (
+            <button
+              className="relative flex items-center gap-3 overflow-hidden group active:scale-95"
+              style={{
+                background: "transparent",
+                border: "1.5px solid rgba(238,242,247,0.45)",
+                padding: "14px 20px",
+                fontFamily: "var(--font-lato), Lato, sans-serif",
+              }}
+            >
+              <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+              <span className="relative z-10 flex items-center gap-3 text-sm font-semibold text-white group-hover:text-[#070908] transition-colors duration-300">
+                {s.ctaSecondary}
+                <ArrowIcon />
+              </span>
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Section number — bottom-right, beyond-aero style */}
-      <div
-        className="absolute bottom-8 right-10 z-30 flex items-center gap-3"
-        style={{ color: "var(--text-muted)" }}
-      >
-        <span
-          className="text-mono font-medium"
-          style={{ fontSize: "0.75rem", letterSpacing: "0.08em" }}
-        >
-          01
-        </span>
+      {/* Scroll hint — only on first section */}
+      {activeSection === 0 && (
         <div
-          className="h-px w-8"
-          style={{ background: "var(--text-muted)", opacity: 0.5 }}
-        />
-      </div>
-
-      {/* Scroll indicator — center bottom */}
-      <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2"
-        style={{ color: "var(--text-muted)" }}
-      >
-        {/* Mouse icon */}
-        <div
-          className="w-5 h-8 rounded-full border flex items-start justify-center pt-1.5"
-          style={{ borderColor: "rgba(238,242,247,0.2)" }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2"
+          style={{ color: "var(--text-muted)" }}
         >
           <div
-            className="w-px h-2 animate-bounce rounded-full"
-            style={{ background: "var(--accent)" }}
-          />
+            className="w-5 h-8 rounded-full border flex items-start justify-center pt-1.5"
+            style={{ borderColor: "rgba(238,242,247,0.2)" }}
+          >
+            <div className="w-px h-2 animate-bounce rounded-full" style={{ background: "var(--accent)" }} />
+          </div>
+          <span className="text-mono" style={{ fontSize: "0.5rem", letterSpacing: "0.2em" }}>
+            SCROLL
+          </span>
         </div>
-        <span
-          className="text-mono"
-          style={{ fontSize: "0.5rem", letterSpacing: "0.2em" }}
-        >
-          SCROLL
-        </span>
-      </div>
+      )}
     </section>
   );
 }

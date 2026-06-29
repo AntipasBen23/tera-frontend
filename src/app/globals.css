@@ -70,23 +70,17 @@ html {
 body {
   background: var(--bg);
   color: var(--text-primary);
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-/* Scroll container — owns the scroll, children snap */
+/* Scroll container — wrapper only, window scroll drives GSAP */
 #scroll-container {
-  height: 100dvh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  overscroll-behavior: none;
+  /* no scroll control — GSAP ScrollTrigger uses window scroll */
 }
 
 /* Each section */
 .snap-section {
   height: 100dvh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   position: relative;
   overflow: hidden;
 }
@@ -172,10 +166,8 @@ body {
   pointer-events: none;
 }
 
-/* Scrollbar */
-#scroll-container::-webkit-scrollbar {
-  width: 0;
-}
+/* Hide scrollbar */
+::-webkit-scrollbar { width: 0; }
 
 
 /* Circular theme toggle radar ping */
@@ -194,6 +186,11 @@ body {
   to   { transform: translateX(100vw);  }
 }
 
+@keyframes contentFadeIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -202,9 +199,5 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  #scroll-container {
-    scroll-behavior: auto;
   }
 }

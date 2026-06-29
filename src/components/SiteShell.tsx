@@ -1,17 +1,15 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { useActiveSection } from "@/hooks/useActiveSection";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Preloader from "./Preloader";
 import SectionIndicator from "./SectionIndicator";
 import HeroSection from "./sections/HeroSection";
-import ReactionSection from "./sections/ReactionSection";
-import ReactorIntelSection from "./sections/ReactorIntelSection";
-import ApplicationsSection from "./sections/ApplicationsSection";
-import TeamSection from "./sections/TeamSection";
-import InvestorsSection from "./sections/InvestorsSection";
 
-const SECTION_COUNT = 6;
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const NAV_LINKS = [
   { label: "Platform",     section: 1 },
@@ -22,11 +20,14 @@ const NAV_LINKS = [
 ];
 
 export default function SiteShell() {
-  const [loaded, setLoaded]       = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
-  const [theme, setTheme]         = useState<"dark" | "light">("dark");
+  const [loaded, setLoaded]             = useState(false);
+  const [menuOpen, setMenuOpen]         = useState(false);
+  const [theme, setTheme]               = useState<"dark" | "light">("dark");
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const activeSection = Math.min(Math.floor(scrollProgress * 6), 5);
+
   const onPreloaderDone = useCallback(() => setLoaded(true), []);
-  const { active, scrollTo }      = useActiveSection(SECTION_COUNT);
 
   useEffect(() => {
     const current = document.documentElement.getAttribute("data-theme") as "dark" | "light";
@@ -39,8 +40,15 @@ export default function SiteShell() {
     document.documentElement.setAttribute("data-theme", next);
   };
 
+  const jumpToSection = useCallback((index: number) => {
+    const st = ScrollTrigger.getById("heroTrigger");
+    if (!st) return;
+    const target = st.start + (st.end - st.start) * (index / 6);
+    window.scrollTo({ top: target, behavior: "smooth" });
+  }, []);
+
   const handleNavClick = (section: number) => {
-    scrollTo(section);
+    jumpToSection(section);
     setMenuOpen(false);
   };
 
@@ -49,32 +57,30 @@ export default function SiteShell() {
       {/* Preloader */}
       {!loaded && <Preloader onComplete={onPreloaderDone} />}
 
-      {/* Scroll container */}
+      {/* Page content */}
       <div
         id="scroll-container"
         style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.4s ease" }}
       >
-        <HeroSection />
-        <ReactionSection />
-        <ReactorIntelSection />
-        <ApplicationsSection />
-        <TeamSection />
-        <InvestorsSection />
+        <HeroSection onScrollProgress={setScrollProgress} />
       </div>
 
       {/* Fixed section indicator */}
       <div className="hidden md:block">
-        <SectionIndicator active={active} onChange={scrollTo} />
+        <SectionIndicator
+          active={activeSection}
+          scrollProgress={scrollProgress}
+          onChange={jumpToSection}
+        />
       </div>
 
-      {/* Circular pulsing theme toggle — sits on center horizontal grid line */}
+      {/* Circular pulsing theme toggle */}
       <button
         onClick={toggleTheme}
         className="fixed z-50 hidden md:flex items-center group"
         style={{ right: "110px", top: "52%", transform: "translateY(-50%)" }}
         aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       >
-        {/* Hover label — appears to the left */}
         <span
           className="mr-4 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap select-none"
           style={{ color: "var(--text-secondary)", letterSpacing: "0.06em" }}
@@ -82,7 +88,6 @@ export default function SiteShell() {
           {theme === "dark" ? "Light mode" : "Dark mode"}
         </span>
 
-        {/* Core dot + 4 staggered pulsing rings — explicit px sizes so scale is visible */}
         <span className="relative flex items-center justify-center" style={{ width: 16, height: 16 }}>
           {[0, 0.6, 1.2, 1.8].map((delay, i) => (
             <span
@@ -97,12 +102,11 @@ export default function SiteShell() {
               }}
             />
           ))}
-          {/* Core circle */}
           <span className="relative block rounded-full" style={{ width: 12, height: 12, background: "rgba(255,255,255,0.88)" }} />
         </span>
       </button>
 
-      {/* Logo — shares left column with hero content */}
+      {/* Logo */}
       <div className="fixed z-50" style={{ left: "72px", top: "55px" }} aria-label="tera">
         <span
           className="font-bold select-none"
@@ -119,37 +123,30 @@ export default function SiteShell() {
         </span>
       </div>
 
-      {/* Header — right-side controls only */}
+      {/* Header */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end"
         style={{ paddingTop: "49px", paddingRight: "72px" }}
       >
-        <div className="flex items-center gap-5">
-
-          {/* Menu button — white fill from bottom on hover */}
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="relative flex items-center gap-3 overflow-hidden rounded border border-white/30 group"
-            style={{ padding: "14px 20px" }}
-            aria-label="Open menu"
-          >
-            {/* White fill slides up from bottom */}
-            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-
-            {/* Content sits above the fill */}
-            <div className="relative z-10 flex items-center gap-3">
-              <div className="grid grid-cols-2 gap-1">
-                <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
-                <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
-                <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
-                <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
-              </div>
-              <span className="text-white group-hover:text-black font-semibold text-sm transition-colors duration-300" style={{ letterSpacing: "0.08em" }}>
-                Menu
-              </span>
+        <button
+          onClick={() => setMenuOpen(true)}
+          className="relative flex items-center gap-3 overflow-hidden rounded border border-white/30 group"
+          style={{ padding: "14px 20px" }}
+          aria-label="Open menu"
+        >
+          <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+          <div className="relative z-10 flex items-center gap-3">
+            <div className="grid grid-cols-2 gap-1">
+              <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
+              <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
+              <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
+              <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
             </div>
-          </button>
-        </div>
+            <span className="text-white group-hover:text-black font-semibold text-sm transition-colors duration-300" style={{ letterSpacing: "0.08em" }}>
+              Menu
+            </span>
+          </div>
+        </button>
       </header>
 
       {/* Dark overlay */}
@@ -160,15 +157,13 @@ export default function SiteShell() {
         />
       )}
 
-      {/* Slide-out menu panel — floating card, inset from edges */}
+      {/* Slide-out menu panel */}
       <div
         className={`fixed top-4 right-4 bottom-4 w-full max-w-xs bg-white rounded-2xl z-[70] shadow-2xl flex flex-col transition-transform duration-500 ease-out ${
           menuOpen ? "translate-x-0" : "translate-x-[calc(100%+1rem)]"
         }`}
       >
         <div className="flex flex-col h-full p-8">
-
-          {/* Panel header */}
           <div className="flex items-center justify-between mb-10">
             <span className="text-gray-400 text-base font-normal tracking-wide">Menu</span>
             <button
@@ -182,7 +177,6 @@ export default function SiteShell() {
             </button>
           </div>
 
-          {/* Nav links */}
           <nav className="flex-1 flex flex-col gap-6">
             {NAV_LINKS.map(({ label, section }) => (
               <button
@@ -193,8 +187,6 @@ export default function SiteShell() {
                 {label}
               </button>
             ))}
-
-            {/* Contact — external style with arrow */}
             <a
               href="mailto:hello@tera.bio"
               className="flex items-center gap-2 text-3xl font-bold text-black hover:text-gray-500 transition-colors duration-200"
@@ -207,18 +199,11 @@ export default function SiteShell() {
             </a>
           </nav>
 
-          {/* Panel footer */}
           <div className="flex items-end justify-between pt-6 border-t border-gray-100">
             <div className="flex flex-col gap-2">
-              <a href="#" className="text-sm text-gray-400 hover:text-black transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-sm text-gray-400 hover:text-black transition-colors">
-                Legal Mentions
-              </a>
+              <a href="#" className="text-sm text-gray-400 hover:text-black transition-colors">Privacy Policy</a>
+              <a href="#" className="text-sm text-gray-400 hover:text-black transition-colors">Legal Mentions</a>
             </div>
-
-            {/* LinkedIn */}
             <a
               href="#"
               aria-label="LinkedIn"
