@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 
 const SECTIONS = [
   { id: "hero", label: "From First Principles" },
@@ -20,7 +19,7 @@ export default function SectionIndicator({ active, onChange }: Props) {
   return (
     <nav
       aria-label="Section navigation"
-      className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col items-end gap-4"
+      className="fixed right-6 bottom-14 z-50 flex flex-col items-end gap-4"
     >
       {SECTIONS.map((section, i) => {
         const isActive = i === active;
