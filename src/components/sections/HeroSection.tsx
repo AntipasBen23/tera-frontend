@@ -34,17 +34,18 @@ export default function HeroSection() {
   return (
     <section id="hero" className="snap-section relative overflow-hidden">
 
-      {/* Subtle grid — beyond-aero signature */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)
-          `,
-          backgroundSize: "140px 140px",
-        }}
-      />
+      {/* Layout grid — beyond-aero signature: vertical columns + horizontal rule */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Vertical lines — 4 equal columns */}
+        <div className="absolute top-0 bottom-0 w-px" style={{ left: "20%",  background: "rgba(255,255,255,0.06)" }} />
+        <div className="absolute top-0 bottom-0 w-px" style={{ left: "40%",  background: "rgba(255,255,255,0.06)" }} />
+        <div className="absolute top-0 bottom-0 w-px" style={{ left: "60%",  background: "rgba(255,255,255,0.06)" }} />
+        <div className="absolute top-0 bottom-0 w-px" style={{ left: "80%",  background: "rgba(255,255,255,0.06)" }} />
+        {/* Horizontal line — just below header */}
+        <div className="absolute left-0 right-0 h-px" style={{ top: "14%",   background: "rgba(255,255,255,0.06)" }} />
+        {/* Horizontal line — just above CTA area */}
+        <div className="absolute left-0 right-0 h-px" style={{ top: "82%",   background: "rgba(255,255,255,0.06)" }} />
+      </div>
 
       {/* 3D model — right 62% of viewport */}
       <div className="absolute top-0 right-0 w-full md:w-[62%] h-full z-10">
