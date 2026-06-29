@@ -69,7 +69,7 @@ export default function HeroSection() {
       />
 
       {/* ── TEXT — same left column as the logo (120px) ── */}
-      <div className="absolute bottom-20 z-30 max-w-[500px]" style={{ left: "120px" }}>
+      <div className="absolute bottom-20 z-30 max-w-[500px]" style={{ left: "72px" }}>
 
         {/* Eyebrow */}
         <p className="text-label mb-5" style={{ color: "var(--accent)" }}>
