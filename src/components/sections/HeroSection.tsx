@@ -115,7 +115,7 @@ export default function HeroSection() {
         <p
           className="mb-10"
           style={{
-            maxWidth: "400px",
+            maxWidth: "480px",
             color: "var(--text-secondary)",
             fontFamily: "var(--font-lato), Lato, sans-serif",
             fontSize: "16px",
