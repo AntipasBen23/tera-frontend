@@ -40,7 +40,7 @@ export default function SectionIndicator({ active, onChange }: Props) {
               <div
                 style={{
                   width: "1.5px",
-                  height: "22px",
+                  height: "25px",
                   background: i <= active ? "var(--accent)" : "rgba(255,255,255,0.15)",
                   transition: "background 0.4s ease",
                 }}
@@ -50,8 +50,8 @@ export default function SectionIndicator({ active, onChange }: Props) {
             {/* Dot */}
             <div
               style={{
-                width:  i === active ? "10px" : "6px",
-                height: i === active ? "10px" : "6px",
+                width:  i === active ? "11px" : "7px",
+                height: i === active ? "11px" : "7px",
                 borderRadius: "50%",
                 background: i === active ? "var(--accent)" : "rgba(255,255,255,0.25)",
                 boxShadow: i === active ? "0 0 8px var(--accent-glow)" : "none",
