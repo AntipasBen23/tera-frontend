@@ -66,8 +66,8 @@ export default function SiteShell() {
         </span>
       </div>
 
-      {/* Header — right-side controls only */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end px-14 pt-10">
+      {/* Header — right-side controls aligned to same row as logo (top:80px) */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end" style={{ paddingTop: "74px", paddingRight: "72px" }}>
         <div className="flex items-center gap-5">
           <ThemeToggle />
 
