@@ -128,14 +128,16 @@ export default function HeroSection() {
           Building directly from the chemistry up, without the cell.
         </p>
 
-        {/* CTAs — beyond-aero style: solid + outlined */}
-        <div className="flex items-center gap-4 flex-wrap">
+        {/* CTAs */}
+        <div className="flex items-center gap-4 flex-wrap" style={{ marginTop: "40px" }}>
           <button
             onClick={scrollToNext}
-            className="flex items-center gap-3 px-6 py-3.5 text-sm font-semibold transition-all duration-200 hover:opacity-90 active:scale-95"
+            className="flex items-center gap-3 text-sm font-semibold transition-all duration-200 hover:opacity-90 active:scale-95"
             style={{
-              background: "var(--text-primary)",
-              color: "var(--bg)",
+              background: "#FFFFFF",
+              color: "#070908",
+              padding: "14px 20px",
+              fontFamily: "var(--font-lato), Lato, sans-serif",
             }}
           >
             Explore the Platform
@@ -143,11 +145,13 @@ export default function HeroSection() {
           </button>
 
           <button
-            className="flex items-center gap-3 px-6 py-3.5 text-sm font-semibold transition-all duration-200 hover:opacity-80 active:scale-95"
+            className="flex items-center gap-3 text-sm font-semibold transition-all duration-200 hover:opacity-80 active:scale-95"
             style={{
               background: "transparent",
               color: "var(--text-primary)",
               border: "1px solid rgba(238,242,247,0.25)",
+              padding: "14px 20px",
+              fontFamily: "var(--font-lato), Lato, sans-serif",
             }}
           >
             Our Research
