@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import Preloader from "./Preloader";
 import SectionIndicator from "./SectionIndicator";
-import ThemeToggle from "./ThemeToggle";
 import HeroSection from "./sections/HeroSection";
 import ReactionSection from "./sections/ReactionSection";
 import ReactorIntelSection from "./sections/ReactorIntelSection";
@@ -25,8 +24,20 @@ const NAV_LINKS = [
 export default function SiteShell() {
   const [loaded, setLoaded]       = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
+  const [theme, setTheme]         = useState<"dark" | "light">("dark");
   const onPreloaderDone = useCallback(() => setLoaded(true), []);
   const { active, scrollTo }      = useActiveSection(SECTION_COUNT);
+
+  useEffect(() => {
+    const current = document.documentElement.getAttribute("data-theme") as "dark" | "light";
+    if (current) setTheme(current);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    document.documentElement.setAttribute("data-theme", next);
+  };
 
   const handleNavClick = (section: number) => {
     scrollTo(section);
@@ -56,6 +67,45 @@ export default function SiteShell() {
         <SectionIndicator active={active} onChange={scrollTo} />
       </div>
 
+      {/* Circular pulsing theme toggle — beyond-aero style, right side vertically centered */}
+      <button
+        onClick={toggleTheme}
+        className="fixed z-50 hidden md:flex items-center group"
+        style={{ right: "68px", top: "50%", transform: "translateY(-50%)" }}
+        aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+      >
+        {/* Hover label — appears to the left */}
+        <span
+          className="mr-4 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap select-none"
+          style={{ color: "var(--text-secondary)", letterSpacing: "0.06em" }}
+        >
+          {theme === "dark" ? "Light mode" : "Dark mode"}
+        </span>
+
+        {/* Core dot + pulsing rings */}
+        <span className="relative flex items-center justify-center w-3 h-3">
+          {/* Ring 1 */}
+          <span
+            className="absolute inset-0 rounded-full"
+            style={{
+              border: "1px solid rgba(255,255,255,0.45)",
+              animation: "radarPing 2.4s ease-out infinite",
+            }}
+          />
+          {/* Ring 2 — offset delay */}
+          <span
+            className="absolute inset-0 rounded-full"
+            style={{
+              border: "1px solid rgba(255,255,255,0.3)",
+              animation: "radarPing 2.4s ease-out infinite",
+              animationDelay: "0.9s",
+            }}
+          />
+          {/* Core circle */}
+          <span className="relative block w-3 h-3 rounded-full bg-white/80" />
+        </span>
+      </button>
+
       {/* Logo — shares left column with hero content */}
       <div className="fixed z-50" style={{ left: "72px", top: "55px" }} aria-label="tera">
         <span
@@ -79,7 +129,6 @@ export default function SiteShell() {
         style={{ paddingTop: "49px", paddingRight: "72px" }}
       >
         <div className="flex items-center gap-5">
-          <ThemeToggle />
 
           {/* Menu button — white fill from bottom on hover */}
           <button
