@@ -34,42 +34,26 @@ export default function HeroSection() {
   return (
     <section id="hero" className="snap-section relative overflow-hidden">
 
-      {/* Grid lines — static base + moving bright highlight, beyond-aero style */}
+      {/* Grid lines — static base + moving highlights (flat, no nesting) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
 
-        {/* ── Vertical lines (highlight slides downward) ── */}
-        {([
-          { left: "17%", duration: "6s",  delay: "0s"  },
-          { left: "50%", duration: "8s",  delay: "-3s" },
-          { left: "83%", duration: "5s",  delay: "-5s" },
-        ] as const).map(({ left, duration, delay }, i) => (
-          <div key={`v${i}`} className="absolute top-0 bottom-0 w-px"
-               style={{ left, background: "rgba(255,255,255,0.05)" }}>
-            <div className="absolute w-full" style={{
-              height: "180px",
-              background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.45), transparent)",
-              animation: `slideDown ${duration} linear infinite`,
-              animationDelay: delay,
-            }} />
-          </div>
-        ))}
+        {/* Static base lines */}
+        <div className="absolute inset-y-0 w-px" style={{ left: "17%", background: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute inset-y-0 w-px" style={{ left: "50%", background: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute inset-y-0 w-px" style={{ left: "83%", background: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute inset-x-0 h-px" style={{ top: "22%",  background: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute inset-x-0 h-px" style={{ top: "52%",  background: "rgba(255,255,255,0.05)" }} />
+        <div className="absolute inset-x-0 h-px" style={{ top: "83%",  background: "rgba(255,255,255,0.05)" }} />
 
-        {/* ── Horizontal lines (highlight slides rightward) ── */}
-        {([
-          { top: "22%", duration: "7s",  delay: "-1s" },
-          { top: "52%", duration: "9s",  delay: "-4s" },
-          { top: "83%", duration: "6s",  delay: "-2s" },
-        ] as const).map(({ top, duration, delay }, i) => (
-          <div key={`h${i}`} className="absolute left-0 right-0 h-px"
-               style={{ top, background: "rgba(255,255,255,0.05)" }}>
-            <div className="absolute h-full" style={{
-              width: "150px",
-              background: "linear-gradient(to right, transparent, rgba(255,255,255,0.45), transparent)",
-              animation: `slideRight ${duration} linear infinite`,
-              animationDelay: delay,
-            }} />
-          </div>
-        ))}
+        {/* Moving highlights — vertical (slide downward) */}
+        <div className="absolute w-px" style={{ top: 0, left: "17%", height: 180, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideDown 6s linear infinite" }} />
+        <div className="absolute w-px" style={{ top: 0, left: "50%", height: 180, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideDown 8s linear infinite", animationDelay: "-3s" }} />
+        <div className="absolute w-px" style={{ top: 0, left: "83%", height: 180, background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideDown 5s linear infinite", animationDelay: "-5s" }} />
+
+        {/* Moving highlights — horizontal (slide rightward) */}
+        <div className="absolute h-px" style={{ left: 0, top: "22%", width: 150, background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideRight 7s linear infinite", animationDelay: "-1s" }} />
+        <div className="absolute h-px" style={{ left: 0, top: "52%", width: 150, background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideRight 9s linear infinite", animationDelay: "-4s" }} />
+        <div className="absolute h-px" style={{ left: 0, top: "83%", width: 150, background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideRight 6s linear infinite", animationDelay: "-2s" }} />
 
       </div>
 

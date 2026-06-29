@@ -180,12 +180,12 @@ body {
 
 /* Grid line running highlight animations */
 @keyframes slideDown {
-  0%   { transform: translateY(-180px); }
-  100% { transform: translateY(100vh);  }
+  from { transform: translateY(-180px); }
+  to   { transform: translateY(100vh);  }
 }
 @keyframes slideRight {
-  0%   { transform: translateX(-150px); }
-  100% { transform: translateX(100vw);  }
+  from { transform: translateX(-150px); }
+  to   { transform: translateX(100vw);  }
 }
 
 /* Reduced motion */
