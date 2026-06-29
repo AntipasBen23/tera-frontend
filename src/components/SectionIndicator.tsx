@@ -1,14 +1,6 @@
 "use client";
 
-
-const SECTIONS = [
-  { id: "hero", label: "From First Principles" },
-  { id: "reaction", label: "The Reaction" },
-  { id: "reactor-intel", label: "Reactor Intelligence" },
-  { id: "applications", label: "Applications" },
-  { id: "team", label: "Team" },
-  { id: "investors", label: "Investors" },
-];
+const SECTION_COUNT = 6;
 
 interface Props {
   active: number;
@@ -19,50 +11,56 @@ export default function SectionIndicator({ active, onChange }: Props) {
   return (
     <nav
       aria-label="Section navigation"
-      className="fixed right-6 bottom-14 z-50 flex flex-col items-end gap-4"
+      className="fixed bottom-14 right-6 z-50 hidden md:flex items-end gap-3"
     >
-      {SECTIONS.map((section, i) => {
-        const isActive = i === active;
-        return (
-          <button
-            key={section.id}
-            onClick={() => onChange(i)}
-            aria-label={`Go to section: ${section.label}`}
-            aria-current={isActive ? "true" : undefined}
-            className="group flex items-center gap-3 focus:outline-none"
-          >
-            {/* Label — visible on hover */}
-            <span
-              className="text-label translate-x-2 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
-              style={{ color: isActive ? "var(--accent)" : "var(--text-muted)" }}
-            >
-              {section.label}
-            </span>
+      {/* Current section number */}
+      <span
+        style={{
+          color: "var(--text-muted)",
+          fontFamily: "var(--font-mono), monospace",
+          fontSize: "0.65rem",
+          letterSpacing: "0.08em",
+          marginBottom: "2px",
+        }}
+      >
+        {String(active + 1).padStart(2, "0")}
+      </span>
 
-            {/* Number + pip */}
-            <span className="flex flex-col items-center gap-1">
-              <span
-                className="text-mono text-[0.65rem] transition-colors duration-300"
+      {/* Compact vertical track */}
+      <div className="flex flex-col items-center">
+        {Array.from({ length: SECTION_COUNT }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => onChange(i)}
+            aria-label={`Go to section ${i + 1}`}
+            className="flex flex-col items-center focus:outline-none group"
+          >
+            {/* Connector line (above each dot except the first) */}
+            {i > 0 && (
+              <div
                 style={{
-                  color: isActive ? "var(--accent)" : "var(--text-muted)",
-                }}
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span
-                className="block transition-all duration-300"
-                style={{
-                  width: isActive ? "1.5px" : "1px",
-                  height: isActive ? "1.75rem" : "1rem",
-                  background: isActive ? "var(--accent)" : "var(--text-muted)",
-                  borderRadius: "1px",
-                  boxShadow: isActive ? "0 0 8px var(--accent-glow)" : "none",
+                  width: "1.5px",
+                  height: "14px",
+                  background: i <= active ? "var(--accent)" : "rgba(255,255,255,0.15)",
+                  transition: "background 0.4s ease",
                 }}
               />
-            </span>
+            )}
+
+            {/* Dot */}
+            <div
+              style={{
+                width:  i === active ? "7px" : "4px",
+                height: i === active ? "7px" : "4px",
+                borderRadius: "50%",
+                background: i === active ? "var(--accent)" : "rgba(255,255,255,0.25)",
+                boxShadow: i === active ? "0 0 8px var(--accent-glow)" : "none",
+                transition: "all 0.4s ease",
+              }}
+            />
           </button>
-        );
-      })}
+        ))}
+      </div>
     </nav>
   );
 }
