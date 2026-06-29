@@ -11,7 +11,7 @@ export default function SectionIndicator({ active, onChange }: Props) {
   return (
     <nav
       aria-label="Section navigation"
-      className="fixed bottom-14 right-32 z-50 hidden md:flex items-end gap-3"
+      className="fixed bottom-14 right-24 z-50 hidden md:flex items-end gap-3"
     >
       {/* Current section number */}
       <span
@@ -40,7 +40,7 @@ export default function SectionIndicator({ active, onChange }: Props) {
               <div
                 style={{
                   width: "1.5px",
-                  height: "28px",
+                  height: "22px",
                   background: i <= active ? "var(--accent)" : "rgba(255,255,255,0.15)",
                   transition: "background 0.4s ease",
                 }}
@@ -50,8 +50,8 @@ export default function SectionIndicator({ active, onChange }: Props) {
             {/* Dot */}
             <div
               style={{
-                width:  i === active ? "13px" : "8px",
-                height: i === active ? "13px" : "8px",
+                width:  i === active ? "10px" : "6px",
+                height: i === active ? "10px" : "6px",
                 borderRadius: "50%",
                 background: i === active ? "var(--accent)" : "rgba(255,255,255,0.25)",
                 boxShadow: i === active ? "0 0 8px var(--accent-glow)" : "none",
