@@ -34,15 +34,43 @@ export default function HeroSection() {
   return (
     <section id="hero" className="snap-section relative overflow-hidden">
 
-      {/* Static layout grid — beyond-aero style */}
+      {/* Grid lines — static base + moving bright highlight, beyond-aero style */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Vertical lines */}
-        <div className="absolute top-0 bottom-0 w-px" style={{ left: "18%",  background: "rgba(255,255,255,0.07)" }} />
-        <div className="absolute top-0 bottom-0 w-px" style={{ left: "54%",  background: "rgba(255,255,255,0.07)" }} />
-        <div className="absolute top-0 bottom-0 w-px" style={{ left: "88%",  background: "rgba(255,255,255,0.07)" }} />
-        {/* Horizontal lines */}
-        <div className="absolute left-0 right-0 h-px" style={{ top: "22%",   background: "rgba(255,255,255,0.07)" }} />
-        <div className="absolute left-0 right-0 h-px" style={{ top: "87%",   background: "rgba(255,255,255,0.07)" }} />
+
+        {/* ── Vertical lines (highlight slides downward) ── */}
+        {([
+          { left: "17%", duration: "6s",  delay: "0s"  },
+          { left: "50%", duration: "8s",  delay: "-3s" },
+          { left: "83%", duration: "5s",  delay: "-5s" },
+        ] as const).map(({ left, duration, delay }, i) => (
+          <div key={`v${i}`} className="absolute top-0 bottom-0 w-px"
+               style={{ left, background: "rgba(255,255,255,0.05)" }}>
+            <div className="absolute w-full" style={{
+              height: "180px",
+              background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.45), transparent)",
+              animation: `slideDown ${duration} linear infinite`,
+              animationDelay: delay,
+            }} />
+          </div>
+        ))}
+
+        {/* ── Horizontal lines (highlight slides rightward) ── */}
+        {([
+          { top: "22%", duration: "7s",  delay: "-1s" },
+          { top: "52%", duration: "9s",  delay: "-4s" },
+          { top: "83%", duration: "6s",  delay: "-2s" },
+        ] as const).map(({ top, duration, delay }, i) => (
+          <div key={`h${i}`} className="absolute left-0 right-0 h-px"
+               style={{ top, background: "rgba(255,255,255,0.05)" }}>
+            <div className="absolute h-full" style={{
+              width: "150px",
+              background: "linear-gradient(to right, transparent, rgba(255,255,255,0.45), transparent)",
+              animation: `slideRight ${duration} linear infinite`,
+              animationDelay: delay,
+            }} />
+          </div>
+        ))}
+
       </div>
 
       {/* 3D model — right 62% of viewport */}
