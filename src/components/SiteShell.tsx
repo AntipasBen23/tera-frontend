@@ -82,14 +82,23 @@ export default function SiteShell() {
           {theme === "dark" ? "Light mode" : "Dark mode"}
         </span>
 
-        {/* Core dot + 4 staggered pulsing rings */}
-        <span className="relative flex items-center justify-center w-2 h-2">
-          <span className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.5)",  animation: "radarPing 2.4s ease-out infinite", animationDelay: "0s"   }} />
-          <span className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.4)",  animation: "radarPing 2.4s ease-out infinite", animationDelay: "0.6s"  }} />
-          <span className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.3)",  animation: "radarPing 2.4s ease-out infinite", animationDelay: "1.2s"  }} />
-          <span className="absolute inset-0 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.2)",  animation: "radarPing 2.4s ease-out infinite", animationDelay: "1.8s"  }} />
+        {/* Core dot + 4 staggered pulsing rings — explicit px sizes so scale is visible */}
+        <span className="relative flex items-center justify-center" style={{ width: 16, height: 16 }}>
+          {[0, 0.6, 1.2, 1.8].map((delay, i) => (
+            <span
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: 16, height: 16,
+                top: 0, left: 0,
+                border: `1px solid rgba(255,255,255,${0.6 - i * 0.1})`,
+                animation: "radarPing 2.4s ease-out infinite",
+                animationDelay: `${delay}s`,
+              }}
+            />
+          ))}
           {/* Core circle */}
-          <span className="relative block w-2 h-2 rounded-full bg-white/85" />
+          <span className="relative block rounded-full" style={{ width: 12, height: 12, background: "rgba(255,255,255,0.88)" }} />
         </span>
       </button>
 
