@@ -1,198 +1,202 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, useState, memo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import {
+  parsePDB,
+  getSecondaryType,
+  type ParsedPDB,
+  type SecondaryType,
+} from "@/lib/parsePDB";
 
-const ATOM_COUNT = 48;
-const BOND_COUNT = 52;
-const SEED = 42;
-
-function seededRandom(seed: number) {
-  let s = seed;
-  return () => {
-    s = (s * 16807 + 0) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
-
-interface AtomDef {
-  pos: THREE.Vector3;
-  radius: number;
-  color: THREE.Color;
-  targetPos: THREE.Vector3;
-}
-
-interface BondDef {
-  a: number;
-  b: number;
-}
-
-function buildMolecule(rand: () => number) {
-  const atoms: AtomDef[] = [];
-
-  // Build a helical-ribbon-ish arrangement of atoms in 3D
-  for (let i = 0; i < ATOM_COUNT; i++) {
-    const t = i / ATOM_COUNT;
-    const angle = t * Math.PI * 6;
-    const radius = 0.8 + rand() * 0.3;
-    const x = Math.cos(angle) * radius + (rand() - 0.5) * 0.4;
-    const y = (t - 0.5) * 3.2 + (rand() - 0.5) * 0.3;
-    const z = Math.sin(angle) * radius + (rand() - 0.5) * 0.4;
-
-    const targetPos = new THREE.Vector3(x, y, z);
-
-    // Atoms start scattered around origin (assembly effect)
-    const scatter = 4;
-    const startPos = new THREE.Vector3(
-      (rand() - 0.5) * scatter,
-      (rand() - 0.5) * scatter,
-      (rand() - 0.5) * scatter
-    );
-
-    // Color: mix of teal/violet/white based on position
-    const hue = 0.47 + rand() * 0.15; // teal to violet range
-    const sat = 0.6 + rand() * 0.4;
-    const lit = 0.55 + rand() * 0.3;
-    const color = new THREE.Color().setHSL(hue, sat, lit);
-
-    atoms.push({
-      pos: startPos.clone(),
-      targetPos,
-      radius: 0.04 + rand() * 0.06,
-      color,
-    });
-  }
-
-  // Build bonds between nearby atoms
-  const bonds: BondDef[] = [];
-  for (let i = 0; i < ATOM_COUNT - 1 && bonds.length < BOND_COUNT; i++) {
-    // Main chain bond
-    bonds.push({ a: i, b: i + 1 });
-    // Occasional cross-links for the ribbon feel
-    if (i < ATOM_COUNT - 4 && rand() > 0.65 && bonds.length < BOND_COUNT) {
-      bonds.push({ a: i, b: i + 3 + Math.floor(rand() * 3) });
-    }
-  }
-
-  return { atoms, bonds };
+interface Segment {
+  type: SecondaryType;
+  points: THREE.Vector3[];
+  index: number;
 }
 
 interface Props {
-  assemblyProgress: number; // 0 = scattered, 1 = assembled
+  assemblyProgress: number;
   mouseX: number;
   mouseY: number;
 }
 
+const COLOR: Record<SecondaryType, THREE.Color> = {
+  helix: new THREE.Color("#00DCB4"),  // brand teal
+  sheet: new THREE.Color("#7B61FF"),  // brand violet
+  coil:  new THREE.Color("#9AAABB"),  // muted blue-grey
+};
+
+const RADIUS: Record<SecondaryType, number> = {
+  helix: 0.065,
+  sheet: 0.050,
+  coil:  0.022,
+};
+
+const EMISSIVE: Record<SecondaryType, number> = {
+  helix: 0.45,
+  sheet: 0.40,
+  coil:  0.08,
+};
+
+// ─── per-segment tube mesh ────────────────────────────────────────────────────
+interface SegmentMeshProps {
+  segment: Segment;
+  meshRef: (m: THREE.Mesh | null) => void;
+}
+
+const SegmentMesh = memo(function SegmentMesh({ segment, meshRef }: SegmentMeshProps) {
+  const geo = useMemo(() => {
+    const curve = new THREE.CatmullRomCurve3(segment.points, false, "catmullrom", 0.5);
+    const tubularSegs = Math.max(segment.points.length * 4, 16);
+    return new THREE.TubeGeometry(curve, tubularSegs, RADIUS[segment.type], 8, false);
+  }, [segment]);
+
+  const mat = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: COLOR[segment.type],
+        emissive: COLOR[segment.type],
+        emissiveIntensity: EMISSIVE[segment.type],
+        transparent: true,
+        opacity: 0,
+        roughness: 0.2,
+        metalness: 0.15,
+        depthWrite: false,
+      }),
+    [segment.type]
+  );
+
+  useEffect(() => () => { geo.dispose(); mat.dispose(); }, [geo, mat]);
+
+  return <mesh ref={meshRef} geometry={geo} material={mat} frustumCulled={false} />;
+});
+
+// ─── main model ───────────────────────────────────────────────────────────────
 export default function EnzymeModel({ assemblyProgress, mouseX, mouseY }: Props) {
-  const groupRef = useRef<THREE.Group>(null);
-  const atomMeshes = useRef<THREE.Mesh[]>([]);
-  const bondMeshes = useRef<THREE.Mesh[]>([]);
+  const groupRef  = useRef<THREE.Group>(null);
+  const meshesRef = useRef<(THREE.Mesh | null)[]>([]);
 
-  const rand = useMemo(() => seededRandom(SEED), []);
-  const { atoms, bonds } = useMemo(() => buildMolecule(rand), [rand]);
+  const [pdbData, setPdbData] = useState<ParsedPDB | null>(null);
 
-  // Idle rotation
-  const idleAngle = useRef(0);
-  const targetRot = useRef({ x: 0, y: 0 });
+  const idleAngle  = useRef(0);
+  const targetRot  = useRef({ x: 0, y: 0 });
   const currentRot = useRef({ x: 0, y: 0 });
 
+  // fetch PDB once
+  useEffect(() => {
+    fetch("/models/enzyme.pdb")
+      .then((r) => r.text())
+      .then((text) => setPdbData(parsePDB(text)));
+  }, []);
+
+  // mouse parallax target
   useEffect(() => {
     targetRot.current.x = mouseY * 0.25;
     targetRot.current.y = mouseX * 0.35;
   }, [mouseX, mouseY]);
 
+  // build segments from PDB data
+  const segments = useMemo((): Segment[] => {
+    if (!pdbData || pdbData.caAtoms.length === 0) return [];
+
+    // Use chain A (first chain found)
+    const chainId = pdbData.caAtoms[0].chainId;
+    const atoms = pdbData.caAtoms
+      .filter((a) => a.chainId === chainId)
+      .sort((a, b) => a.resSeq - b.resSeq);
+
+    if (atoms.length < 4) return [];
+
+    // Center + normalise into ±2.2 unit sphere
+    const centroid = new THREE.Vector3();
+    atoms.forEach((a) => centroid.add(new THREE.Vector3(a.x, a.y, a.z)));
+    centroid.divideScalar(atoms.length);
+
+    let maxDist = 0;
+    const vecs = atoms.map((a) => {
+      const v = new THREE.Vector3(a.x - centroid.x, a.y - centroid.y, a.z - centroid.z);
+      if (v.length() > maxDist) maxDist = v.length();
+      return { v, resSeq: a.resSeq };
+    });
+
+    const scale = 1.9 / maxDist;
+    const pts = vecs.map(({ v, resSeq }) => ({
+      point: v.clone().multiplyScalar(scale),
+      resSeq,
+    }));
+
+    // Split into contiguous secondary-structure segments
+    const segs: Segment[] = [];
+    let curType: SecondaryType | null = null;
+    let curPts: THREE.Vector3[] = [];
+    let idx = 0;
+
+    for (const { point, resSeq } of pts) {
+      const type = getSecondaryType(resSeq, chainId, pdbData.helices, pdbData.sheets);
+
+      if (type !== curType) {
+        if (curPts.length >= 2 && curType !== null) {
+          segs.push({ type: curType, points: [...curPts], index: idx++ });
+        }
+        // Overlap: share last point so tubes connect seamlessly
+        curPts = curPts.length > 0 ? [curPts[curPts.length - 1], point] : [point];
+        curType = type;
+      } else {
+        curPts.push(point);
+      }
+    }
+    if (curPts.length >= 2 && curType !== null) {
+      segs.push({ type: curType, points: curPts, index: idx++ });
+    }
+
+    return segs;
+  }, [pdbData]);
+
+  // resize mesh ref array when segment count changes
+  useEffect(() => {
+    meshesRef.current = new Array(segments.length).fill(null);
+  }, [segments.length]);
+
   useFrame((_, delta) => {
     if (!groupRef.current) return;
 
-    // Lerp atom positions toward target based on assemblyProgress
-    atoms.forEach((atom, i) => {
-      const mesh = atomMeshes.current[i];
-      if (!mesh) return;
-      mesh.position.lerpVectors(atom.pos, atom.targetPos, assemblyProgress);
-      mesh.scale.setScalar(THREE.MathUtils.lerp(0.1, 1, assemblyProgress));
-      (mesh.material as THREE.MeshStandardMaterial).opacity = assemblyProgress;
-    });
-
-    // Lerp bond visibility
-    bondMeshes.current.forEach((mesh) => {
-      if (!mesh) return;
-      (mesh.material as THREE.MeshStandardMaterial).opacity =
-        Math.max(0, assemblyProgress * 2 - 0.5);
-    });
-
-    // Idle self-rotation
+    // idle rotation + mouse parallax
     idleAngle.current += delta * 0.18;
-
-    // Smooth mouse parallax
     currentRot.current.x += (targetRot.current.x - currentRot.current.x) * 0.05;
     currentRot.current.y += (targetRot.current.y - currentRot.current.y) * 0.05;
-
     groupRef.current.rotation.y = idleAngle.current + currentRot.current.y;
     groupRef.current.rotation.x = currentRot.current.x;
+
+    // staggered reveal: each segment fades in sequentially
+    const total = segments.length;
+    if (total === 0) return;
+
+    meshesRef.current.forEach((mesh, i) => {
+      if (!mesh) return;
+      const threshold = i / total;
+      const segProgress = THREE.MathUtils.clamp(
+        (assemblyProgress - threshold) * total,
+        0,
+        1
+      );
+      const mat = mesh.material as THREE.MeshStandardMaterial;
+      mat.opacity = segProgress;
+      mesh.scale.setScalar(THREE.MathUtils.lerp(0.5, 1, segProgress));
+    });
   });
 
-  // Bond geometry helper
-  function BondMesh({ a, b, idx }: { a: number; b: number; idx: number }) {
-    const meshRef = useRef<THREE.Mesh>(null);
-
-    useEffect(() => {
-      if (meshRef.current) bondMeshes.current[idx] = meshRef.current;
-    }, [idx]);
-
-    const posA = atoms[a].targetPos;
-    const posB = atoms[b].targetPos;
-    const mid = posA.clone().add(posB).multiplyScalar(0.5);
-    const dir = posB.clone().sub(posA);
-    const length = dir.length();
-    const quat = new THREE.Quaternion().setFromUnitVectors(
-      new THREE.Vector3(0, 1, 0),
-      dir.normalize()
-    );
-
-    return (
-      <mesh ref={meshRef} position={mid} quaternion={quat}>
-        <cylinderGeometry args={[0.012, 0.012, length, 6]} />
-        <meshStandardMaterial
-          color="#00DCB4"
-          emissive="#00DCB4"
-          emissiveIntensity={0.3}
-          transparent
-          opacity={0}
-          roughness={0.3}
-          metalness={0.1}
-        />
-      </mesh>
-    );
-  }
+  if (!pdbData || segments.length === 0) return null;
 
   return (
     <group ref={groupRef}>
-      {/* Atoms */}
-      {atoms.map((atom, i) => (
-        <mesh
-          key={`atom-${i}`}
-          ref={(m) => {
-            if (m) atomMeshes.current[i] = m;
-          }}
-          position={atom.pos}
-        >
-          <sphereGeometry args={[atom.radius, 10, 10]} />
-          <meshStandardMaterial
-            color={atom.color}
-            emissive={atom.color}
-            emissiveIntensity={0.4}
-            transparent
-            opacity={0}
-            roughness={0.25}
-            metalness={0.2}
-          />
-        </mesh>
-      ))}
-
-      {/* Bonds */}
-      {bonds.map((b, i) => (
-        <BondMesh key={`bond-${i}`} a={b.a} b={b.b} idx={i} />
+      {segments.map((seg, i) => (
+        <SegmentMesh
+          key={i}
+          segment={seg}
+          meshRef={(m) => { meshesRef.current[i] = m; }}
+        />
       ))}
     </group>
   );
