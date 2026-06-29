@@ -112,7 +112,17 @@ export default function HeroSection() {
         </h1>
 
         {/* Body */}
-        <p className="text-subhead mb-10" style={{ maxWidth: "400px" }}>
+        <p
+          className="mb-10"
+          style={{
+            maxWidth: "400px",
+            color: "var(--text-secondary)",
+            fontFamily: "var(--font-lato), Lato, sans-serif",
+            fontSize: "16px",
+            fontWeight: 400,
+            lineHeight: 1.6,
+          }}
+        >
           tera re-imagines how powerful molecules from nature are made —
           building directly from the chemistry up, without the cell.
         </p>
