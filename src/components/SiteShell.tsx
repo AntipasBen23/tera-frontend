@@ -48,7 +48,7 @@ export default function SiteShell() {
       {/* Logo — independently fixed so it shares the same left column as hero content */}
       <div
         className="fixed z-50"
-        style={{ left: "72px", top: "80px" }}
+        style={{ left: "72px", top: "55px" }}
         aria-label="tera"
       >
         <span
@@ -67,7 +67,7 @@ export default function SiteShell() {
       </div>
 
       {/* Header — right-side controls aligned to same row as logo (top:80px) */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end" style={{ paddingTop: "74px", paddingRight: "72px" }}>
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end" style={{ paddingTop: "49px", paddingRight: "72px" }}>
         <div className="flex items-center gap-5">
           <ThemeToggle />
 
