@@ -68,8 +68,8 @@ export default function HeroSection() {
         }}
       />
 
-      {/* ── TEXT — bottom-left, exactly like beyond-aero ── */}
-      <div className="absolute bottom-20 left-10 md:left-14 z-30 max-w-[500px] px-2">
+      {/* ── TEXT — same left column as the logo (120px) ── */}
+      <div className="absolute bottom-20 z-30 max-w-[500px]" style={{ left: "120px" }}>
 
         {/* Eyebrow */}
         <p className="text-label mb-5" style={{ color: "var(--accent)" }}>

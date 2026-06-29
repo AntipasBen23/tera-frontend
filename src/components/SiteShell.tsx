@@ -45,26 +45,29 @@ export default function SiteShell() {
         <SectionIndicator active={active} onChange={scrollTo} />
       </div>
 
-      {/* Fixed header strip — px-14 pt-10 matches beyond-aero inset */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-14 pt-10 pb-4">
-        {/* Wordmark — shifted right + down to match beyond-aero logo placement */}
-        <div aria-label="tera" style={{ transform: "translate(74px, 88px)" }}>
-          <span
-            className="font-bold select-none"
-            style={{
-              background: "linear-gradient(90deg, #00B8CC 0%, #44C038 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              fontSize: "1.1rem",
-              letterSpacing: "0.28em",
-            }}
-          >
-            tera
-          </span>
-        </div>
+      {/* Logo — independently fixed so it shares the same left column as hero content */}
+      <div
+        className="fixed z-50"
+        style={{ left: "120px", top: "120px" }}
+        aria-label="tera"
+      >
+        <span
+          className="font-bold select-none"
+          style={{
+            background: "linear-gradient(90deg, #00B8CC 0%, #44C038 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            fontSize: "1.1rem",
+            letterSpacing: "0.28em",
+          }}
+        >
+          tera
+        </span>
+      </div>
 
-        {/* Right — Menu button (beyond-aero style) + theme toggle */}
+      {/* Header — right-side controls only */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end px-14 pt-10">
         <div className="flex items-center gap-5">
           <ThemeToggle />
 
@@ -77,12 +80,11 @@ export default function SiteShell() {
             }}
             aria-label="Menu"
           >
-            {/* Grid icon — 4-square, exactly like beyond-aero */}
             <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
-              <rect x="0"   y="0"   width="6" height="6" rx="0.5" />
-              <rect x="9"   y="0"   width="6" height="6" rx="0.5" />
-              <rect x="0"   y="9"   width="6" height="6" rx="0.5" />
-              <rect x="9"   y="9"   width="6" height="6" rx="0.5" />
+              <rect x="0" y="0" width="6" height="6" rx="0.5" />
+              <rect x="9" y="0" width="6" height="6" rx="0.5" />
+              <rect x="0" y="9" width="6" height="6" rx="0.5" />
+              <rect x="9" y="9" width="6" height="6" rx="0.5" />
             </svg>
             Menu
           </button>
