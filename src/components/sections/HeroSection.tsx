@@ -34,17 +34,70 @@ export default function HeroSection() {
   return (
     <section id="hero" className="snap-section relative overflow-hidden">
 
-      {/* Layout grid — beyond-aero signature: vertical columns + horizontal rule */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Vertical lines — 4 equal columns */}
-        <div className="absolute top-0 bottom-0 w-px" style={{ left: "20%",  background: "rgba(255,255,255,0.06)" }} />
-        <div className="absolute top-0 bottom-0 w-px" style={{ left: "40%",  background: "rgba(255,255,255,0.06)" }} />
-        <div className="absolute top-0 bottom-0 w-px" style={{ left: "60%",  background: "rgba(255,255,255,0.06)" }} />
-        <div className="absolute top-0 bottom-0 w-px" style={{ left: "80%",  background: "rgba(255,255,255,0.06)" }} />
-        {/* Horizontal line — just below header */}
-        <div className="absolute left-0 right-0 h-px" style={{ top: "14%",   background: "rgba(255,255,255,0.06)" }} />
-        {/* Horizontal line — just above CTA area */}
-        <div className="absolute left-0 right-0 h-px" style={{ top: "82%",   background: "rgba(255,255,255,0.06)" }} />
+      {/* Animated background lines */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {/* Floating vertical lines — drift downward */}
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={`vline-${i}`}
+            className="absolute w-px"
+            style={{
+              height: "200px",
+              left: `${10 + i * 12}%`,
+              background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.15), transparent)",
+              animation: `floatLine ${15 + i * 2}s linear infinite`,
+              animationDelay: `${i * -2}s`,
+            }}
+          />
+        ))}
+
+        {/* Floating dots */}
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={`dot-${i}`}
+            className="absolute rounded-full"
+            style={{
+              width:  i % 3 === 0 ? "4px" : "2px",
+              height: i % 3 === 0 ? "4px" : "2px",
+              left: `${(i * 37 + 7) % 100}%`,
+              top:  `${(i * 53 + 11) % 100}%`,
+              background: "rgba(255,255,255,0.25)",
+              animation: `floatDot ${10 + i * 3}s ease-in-out infinite`,
+              animationDelay: `${i * -1.5}s`,
+            }}
+          />
+        ))}
+
+        {/* Floating horizontal lines — drift rightward */}
+        {[...Array(5)].map((_, i) => (
+          <div
+            key={`hline-${i}`}
+            className="absolute h-px"
+            style={{
+              width: "150px",
+              top: `${15 + i * 17}%`,
+              background: "linear-gradient(to right, transparent, rgba(255,255,255,0.12), transparent)",
+              animation: `floatHorizontal ${20 + i * 3}s linear infinite`,
+              animationDelay: `${i * -3}s`,
+            }}
+          />
+        ))}
+
+        {/* Ripple circles */}
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={`ripple-${i}`}
+            className="absolute rounded-full border border-white/10"
+            style={{
+              width:  `${40 + i * 20}px`,
+              height: `${40 + i * 20}px`,
+              left: `${20 + i * 15}%`,
+              top:  `${25 + i * 10}%`,
+              animation: `ripple ${8 + i * 2}s ease-in-out infinite`,
+              animationDelay: `${i * -2}s`,
+            }}
+          />
+        ))}
       </div>
 
       {/* 3D model — right 62% of viewport */}
