@@ -14,10 +14,24 @@ import InvestorsSection from "./sections/InvestorsSection";
 
 const SECTION_COUNT = 6;
 
+const NAV_LINKS = [
+  { label: "Platform",     section: 1 },
+  { label: "Technology",   section: 2 },
+  { label: "Applications", section: 3 },
+  { label: "Team",         section: 4 },
+  { label: "Investors",    section: 5 },
+];
+
 export default function SiteShell() {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded]       = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
   const onPreloaderDone = useCallback(() => setLoaded(true), []);
-  const { active, scrollTo } = useActiveSection(SECTION_COUNT);
+  const { active, scrollTo }      = useActiveSection(SECTION_COUNT);
+
+  const handleNavClick = (section: number) => {
+    scrollTo(section);
+    setMenuOpen(false);
+  };
 
   return (
     <>
@@ -27,10 +41,7 @@ export default function SiteShell() {
       {/* Scroll container */}
       <div
         id="scroll-container"
-        style={{
-          opacity: loaded ? 1 : 0,
-          transition: "opacity 0.4s ease",
-        }}
+        style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.4s ease" }}
       >
         <HeroSection />
         <ReactionSection />
@@ -40,17 +51,13 @@ export default function SiteShell() {
         <InvestorsSection />
       </div>
 
-      {/* Fixed section indicator — hidden on mobile */}
+      {/* Fixed section indicator */}
       <div className="hidden md:block">
         <SectionIndicator active={active} onChange={scrollTo} />
       </div>
 
-      {/* Logo — independently fixed so it shares the same left column as hero content */}
-      <div
-        className="fixed z-50"
-        style={{ left: "72px", top: "55px" }}
-        aria-label="tera"
-      >
+      {/* Logo — shares left column with hero content */}
+      <div className="fixed z-50" style={{ left: "72px", top: "55px" }} aria-label="tera">
         <span
           className="font-bold select-none"
           style={{
@@ -66,30 +73,120 @@ export default function SiteShell() {
         </span>
       </div>
 
-      {/* Header — right-side controls aligned to same row as logo (top:80px) */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end" style={{ paddingTop: "49px", paddingRight: "72px" }}>
+      {/* Header — right-side controls only */}
+      <header
+        className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end"
+        style={{ paddingTop: "49px", paddingRight: "72px" }}
+      >
         <div className="flex items-center gap-5">
           <ThemeToggle />
 
+          {/* Menu button — white fill from bottom on hover */}
           <button
-            className="flex items-center gap-2.5 px-5 py-2.5 text-sm font-semibold transition-all hover:bg-white/5 active:scale-95"
-            style={{
-              color: "var(--text-primary)",
-              border: "1.5px solid rgba(238,242,247,0.45)",
-              letterSpacing: "0.08em",
-            }}
-            aria-label="Menu"
+            onClick={() => setMenuOpen(true)}
+            className="relative flex items-center gap-3 px-5 py-2.5 overflow-hidden rounded-lg border border-white/30 group"
+            aria-label="Open menu"
           >
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
-              <rect x="0" y="0" width="6" height="6" rx="0.5" />
-              <rect x="9" y="0" width="6" height="6" rx="0.5" />
-              <rect x="0" y="9" width="6" height="6" rx="0.5" />
-              <rect x="9" y="9" width="6" height="6" rx="0.5" />
-            </svg>
-            Menu
+            {/* White fill slides up from bottom */}
+            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+
+            {/* Content sits above the fill */}
+            <div className="relative z-10 flex items-center gap-3">
+              <div className="grid grid-cols-2 gap-1">
+                <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
+                <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
+                <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
+                <div className="w-1.5 h-1.5 bg-white group-hover:bg-black rounded-sm transition-colors duration-300" />
+              </div>
+              <span className="text-white group-hover:text-black font-semibold text-sm transition-colors duration-300" style={{ letterSpacing: "0.08em" }}>
+                Menu
+              </span>
+            </div>
           </button>
         </div>
       </header>
+
+      {/* Dark overlay */}
+      {menuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-[60] transition-opacity duration-300"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
+
+      {/* Slide-out menu panel — floating card, inset from edges */}
+      <div
+        className={`fixed top-4 right-4 bottom-4 w-full max-w-xs bg-white rounded-2xl z-[70] shadow-2xl flex flex-col transition-transform duration-500 ease-out ${
+          menuOpen ? "translate-x-0" : "translate-x-[calc(100%+1rem)]"
+        }`}
+      >
+        <div className="flex flex-col h-full p-8">
+
+          {/* Panel header */}
+          <div className="flex items-center justify-between mb-10">
+            <span className="text-gray-400 text-base font-normal tracking-wide">Menu</span>
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="w-11 h-11 flex items-center justify-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              aria-label="Close menu"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Nav links */}
+          <nav className="flex-1 flex flex-col gap-6">
+            {NAV_LINKS.map(({ label, section }) => (
+              <button
+                key={label}
+                onClick={() => handleNavClick(section)}
+                className="text-left text-3xl font-bold text-black hover:text-gray-500 transition-colors duration-200"
+              >
+                {label}
+              </button>
+            ))}
+
+            {/* Contact — external style with arrow */}
+            <a
+              href="mailto:hello@tera.bio"
+              className="flex items-center gap-2 text-3xl font-bold text-black hover:text-gray-500 transition-colors duration-200"
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          </nav>
+
+          {/* Panel footer */}
+          <div className="flex items-end justify-between pt-6 border-t border-gray-100">
+            <div className="flex flex-col gap-2">
+              <a href="#" className="text-sm text-gray-400 hover:text-black transition-colors">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-sm text-gray-400 hover:text-black transition-colors">
+                Legal Mentions
+              </a>
+            </div>
+
+            {/* LinkedIn */}
+            <a
+              href="#"
+              aria-label="LinkedIn"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" fill="#6B7280" />
+                <path d="M6 9H2V21H6V9Z" fill="#6B7280" />
+                <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" fill="#6B7280" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
