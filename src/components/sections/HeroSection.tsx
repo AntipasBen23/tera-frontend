@@ -96,7 +96,7 @@ export default function HeroSection() {
             margin: "6px 0px 0px",
           }}
         >
-          From First
+          Nature Works From
           <br />
           <span
             className="glow"
@@ -107,7 +107,7 @@ export default function HeroSection() {
               backgroundClip: "text",
             }}
           >
-            Principles.
+            First Principles
           </span>
         </h1>
 
