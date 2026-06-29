@@ -47,38 +47,44 @@ export default function SiteShell() {
 
       {/* Fixed header strip */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5">
-        {/* Wordmark */}
-        <div className="flex items-center gap-3" aria-label="tera">
+        {/* Wordmark — gradient matching logo */}
+        <div aria-label="tera">
           <span
-            className="text-mono font-semibold text-sm"
-            style={{ color: "var(--text-primary)", letterSpacing: "0.25em" }}
+            className="font-bold tracking-widest text-base select-none"
+            style={{
+              background: "linear-gradient(90deg, #00B8CC 0%, #44C038 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              letterSpacing: "0.22em",
+            }}
           >
             tera
           </span>
-          <span
-            className="text-mono text-[0.55rem] px-2 py-0.5 rounded-full"
-            style={{
-              color: "var(--accent)",
-              background: "var(--accent-dim)",
-              border: "1px solid var(--border)",
-              letterSpacing: "0.1em",
-            }}
-          >
-            BETA
-          </span>
         </div>
 
-        {/* Right controls */}
+        {/* Right — Menu button (beyond-aero style) + theme toggle */}
         <div className="flex items-center gap-4">
-          {/* Mobile section counter */}
-          <span
-            className="md:hidden text-mono text-xs"
-            style={{ color: "var(--text-muted)" }}
-          >
-            {String(active + 1).padStart(2, "0")} / {String(SECTION_COUNT).padStart(2, "0")}
-          </span>
-
           <ThemeToggle />
+
+          <button
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all hover:opacity-80"
+            style={{
+              color: "var(--text-primary)",
+              border: "1px solid rgba(238,242,247,0.2)",
+              letterSpacing: "0.06em",
+            }}
+            aria-label="Menu"
+          >
+            {/* Grid icon */}
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+              <rect x="0" y="0" width="5.5" height="5.5" rx="0.5" />
+              <rect x="8.5" y="0" width="5.5" height="5.5" rx="0.5" />
+              <rect x="0" y="8.5" width="5.5" height="5.5" rx="0.5" />
+              <rect x="8.5" y="8.5" width="5.5" height="5.5" rx="0.5" />
+            </svg>
+            Menu
+          </button>
         </div>
       </header>
     </>
