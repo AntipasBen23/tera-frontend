@@ -8,9 +8,10 @@ import { useIsMobile, useIsReducedMotion } from "@/hooks/useIsMobile";
 interface Props {
   mouseX: number;
   mouseY: number;
+  scrollProgress: number;
 }
 
-export default function EnzymeCanvas({ mouseX, mouseY }: Props) {
+export default function EnzymeCanvas({ mouseX, mouseY, scrollProgress }: Props) {
   const [progress, setProgress] = useState(0);
   const rafId = useRef<number>(0);
   const startTime = useRef<number | null>(null);
@@ -72,6 +73,7 @@ export default function EnzymeCanvas({ mouseX, mouseY }: Props) {
           assemblyProgress={progress}
           mouseX={reducedMotion ? 0 : mouseX}
           mouseY={reducedMotion ? 0 : mouseY}
+          scrollProgress={scrollProgress}
         />
       </Suspense>
     </Canvas>

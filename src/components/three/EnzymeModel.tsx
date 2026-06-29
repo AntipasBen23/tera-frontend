@@ -9,12 +9,12 @@ interface Props {
   assemblyProgress: number;
   mouseX: number;
   mouseY: number;
+  scrollProgress: number;
 }
 
-// Normalize the model to fit inside this diameter regardless of original scale
 const TARGET_SIZE = 2.4;
 
-export default function EnzymeModel({ assemblyProgress, mouseX, mouseY }: Props) {
+export default function EnzymeModel({ assemblyProgress, mouseX, mouseY, scrollProgress }: Props) {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF("/models/enzyme.glb");
 
@@ -66,8 +66,13 @@ export default function EnzymeModel({ assemblyProgress, mouseX, mouseY }: Props)
     currentRot.current.x += (targetRot.current.x - currentRot.current.x) * 0.05;
     currentRot.current.y += (targetRot.current.y - currentRot.current.y) * 0.05;
 
-    groupRef.current.rotation.y = idleAngle.current + currentRot.current.y;
+    // Scroll-driven: add extra Y rotation and vertical drift as user scrolls
+    const scrollRotY  = scrollProgress * Math.PI * 0.7; // ~126° over full journey
+    const scrollDriftY = scrollProgress * 0.6;           // float upward gently
+
+    groupRef.current.rotation.y = idleAngle.current + currentRot.current.y + scrollRotY;
     groupRef.current.rotation.x = currentRot.current.x;
+    groupRef.current.position.y = scrollDriftY;
 
     // Assembly: scale up + fade in
     const eased = THREE.MathUtils.lerp(0.3, 1, assemblyProgress);

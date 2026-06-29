@@ -69,6 +69,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [activeSection, setActiveSection] = useState(0);
+  const [scrollProg, setScrollProg] = useState(0);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -99,6 +100,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         scrub: 0.8,
         onUpdate: (self) => {
           onScrollProgress?.(self.progress);
+          setScrollProg(self.progress);
           setActiveSection(Math.min(Math.floor(self.progress * 6), 5));
         },
       });
@@ -135,7 +137,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
 
       {/* Full-screen 3D model */}
       <div className="absolute inset-0 z-10">
-        <EnzymeCanvas mouseX={mouse.x} mouseY={mouse.y} />
+        <EnzymeCanvas mouseX={mouse.x} mouseY={mouse.y} scrollProgress={scrollProg} />
       </div>
 
       {/* Left-to-right gradient — keeps text readable over full-bleed model */}
