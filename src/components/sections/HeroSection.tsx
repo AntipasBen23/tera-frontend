@@ -130,33 +130,41 @@ export default function HeroSection() {
 
         {/* CTAs */}
         <div className="flex items-center gap-4 flex-wrap" style={{ marginTop: "40px" }}>
+
+          {/* Primary — white bg, dark fill slides up on hover */}
           <button
             onClick={scrollToNext}
-            className="flex items-center gap-3 text-sm font-semibold transition-all duration-200 hover:opacity-90 active:scale-95"
+            className="relative flex items-center gap-3 overflow-hidden group active:scale-95"
             style={{
               background: "#FFFFFF",
-              color: "#070908",
               padding: "14px 20px",
               fontFamily: "var(--font-lato), Lato, sans-serif",
             }}
           >
-            Explore Now
-            <ArrowIcon />
+            <div className="absolute inset-0 bg-[#070908] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+            <span className="relative z-10 flex items-center gap-3 text-sm font-semibold text-[#070908] group-hover:text-white transition-colors duration-300">
+              Explore Now
+              <ArrowIcon />
+            </span>
           </button>
 
+          {/* Ghost — transparent, white fill slides up on hover */}
           <button
-            className="flex items-center gap-3 text-sm font-semibold transition-all duration-200 hover:opacity-80 active:scale-95"
+            className="relative flex items-center gap-3 overflow-hidden group active:scale-95"
             style={{
               background: "transparent",
-              color: "var(--text-primary)",
               border: "1.5px solid rgba(238,242,247,0.45)",
               padding: "14px 20px",
               fontFamily: "var(--font-lato), Lato, sans-serif",
             }}
           >
-            Our Research
-            <ArrowIcon />
+            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+            <span className="relative z-10 flex items-center gap-3 text-sm font-semibold text-white group-hover:text-[#070908] transition-colors duration-300">
+              Our Research
+              <ArrowIcon />
+            </span>
           </button>
+
         </div>
       </div>
 
