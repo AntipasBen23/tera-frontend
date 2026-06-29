@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #05090D;
-  --bg-section: #070C11;
-  --surface: #0D1520;
-  --surface-alt: #111D2B;
-  --border: rgba(0, 220, 180, 0.12);
+  --bg: #070908;
+  --bg-section: #090B0A;
+  --surface: #0E1510;
+  --surface-alt: #131C15;
+  --border: rgba(0, 184, 204, 0.12);
 
-  --accent: #00DCB4;
-  --accent-dim: rgba(0, 220, 180, 0.15);
-  --accent-glow: rgba(0, 220, 180, 0.35);
-  --violet: #7B61FF;
-  --violet-dim: rgba(123, 97, 255, 0.15);
+  --accent: #00B8CC;
+  --accent-dim: rgba(0, 184, 204, 0.15);
+  --accent-glow: rgba(0, 184, 204, 0.35);
+  --violet: #44C038;
+  --violet-dim: rgba(68, 192, 56, 0.15);
   --gold: #F5C542;
 
   --text-primary: #EEF2F7;
@@ -33,11 +33,11 @@
   --surface-alt: #EEF3F7;
   --border: rgba(0, 160, 130, 0.15);
 
-  --accent: #009E82;
-  --accent-dim: rgba(0, 158, 130, 0.1);
-  --accent-glow: rgba(0, 158, 130, 0.25);
-  --violet: #5B41EE;
-  --violet-dim: rgba(91, 65, 238, 0.1);
+  --accent: #0094A8;
+  --accent-dim: rgba(0, 148, 168, 0.1);
+  --accent-glow: rgba(0, 148, 168, 0.25);
+  --violet: #2FA826;
+  --violet-dim: rgba(47, 168, 38, 0.1);
 
   --text-primary: #0D1520;
   --text-secondary: #4A6078;
