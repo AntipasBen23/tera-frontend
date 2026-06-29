@@ -47,8 +47,8 @@ export default function SiteShell() {
 
       {/* Fixed header strip — px-14 pt-10 matches beyond-aero inset */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-14 pt-10 pb-4">
-        {/* Wordmark — gradient matching logo */}
-        <div aria-label="tera">
+        {/* Wordmark — shifted right + down to match beyond-aero logo placement */}
+        <div aria-label="tera" style={{ transform: "translate(36px, 28px)" }}>
           <span
             className="font-bold select-none"
             style={{
