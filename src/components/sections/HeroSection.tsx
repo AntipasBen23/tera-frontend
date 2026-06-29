@@ -84,8 +84,18 @@ export default function HeroSection() {
           Cell-Free Biomanufacturing
         </p>
 
-        {/* Headline */}
-        <h1 className="text-display mb-5" style={{ color: "var(--text-primary)" }}>
+        {/* Headline — 32px Lato matching reference, colors preserved */}
+        <h1
+          className="mb-5"
+          style={{
+            color: "var(--text-primary)",
+            fontFamily: "var(--font-lato), Lato, sans-serif",
+            fontSize: "32px",
+            fontWeight: 700,
+            lineHeight: 1.15,
+            margin: "6px 0px 0px",
+          }}
+        >
           From First
           <br />
           <span
