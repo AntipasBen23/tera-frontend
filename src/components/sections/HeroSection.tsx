@@ -71,8 +71,16 @@ export default function HeroSection() {
       {/* ── TEXT — same left column as the logo (120px) ── */}
       <div className="absolute z-30 max-w-[500px]" style={{ left: "72px", bottom: "130px" }}>
 
-        {/* Eyebrow */}
-        <p className="text-label mb-5" style={{ color: "var(--accent)" }}>
+        {/* Eyebrow — 18px Lato matching reference, accent color preserved */}
+        <p
+          className="mb-5"
+          style={{
+            color: "var(--accent)",
+            fontFamily: "var(--font-lato), Lato, sans-serif",
+            fontSize: "18px",
+            fontWeight: 400,
+          }}
+        >
           Cell-Free Biomanufacturing
         </p>
 
