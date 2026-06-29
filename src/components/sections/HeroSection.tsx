@@ -101,7 +101,7 @@ export default function HeroSection() {
           <span
             className="glow"
             style={{
-              background: "linear-gradient(90deg, #00B8CC, #44C038)",
+              background: "linear-gradient(90deg, #00A8BB, #38A832)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
