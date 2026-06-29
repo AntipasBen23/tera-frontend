@@ -124,8 +124,9 @@ export default function HeroSection() {
             marginTop: "28px",
           }}
         >
-          tera re-imagines how powerful molecules from nature are made.
-          Building directly from the chemistry up, without the cell.
+          Reimagining how the most powerful molecules are made. A cell-free
+          platform harnessing enzyme engineering to produce nature's most
+          valuable compounds, faster and purer than ever.
         </p>
 
         {/* CTAs */}
