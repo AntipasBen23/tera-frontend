@@ -45,18 +45,19 @@ export default function SiteShell() {
         <SectionIndicator active={active} onChange={scrollTo} />
       </div>
 
-      {/* Fixed header strip */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5">
+      {/* Fixed header strip — px-14 pt-10 matches beyond-aero inset */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-14 pt-10 pb-4">
         {/* Wordmark — gradient matching logo */}
         <div aria-label="tera">
           <span
-            className="font-bold tracking-widest text-base select-none"
+            className="font-bold select-none"
             style={{
               background: "linear-gradient(90deg, #00B8CC 0%, #44C038 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
-              letterSpacing: "0.22em",
+              fontSize: "1.1rem",
+              letterSpacing: "0.28em",
             }}
           >
             tera
@@ -64,24 +65,24 @@ export default function SiteShell() {
         </div>
 
         {/* Right — Menu button (beyond-aero style) + theme toggle */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           <ThemeToggle />
 
           <button
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all hover:opacity-80"
+            className="flex items-center gap-2.5 px-5 py-2.5 text-sm font-semibold transition-all hover:bg-white/5 active:scale-95"
             style={{
               color: "var(--text-primary)",
-              border: "1px solid rgba(238,242,247,0.2)",
-              letterSpacing: "0.06em",
+              border: "1.5px solid rgba(238,242,247,0.45)",
+              letterSpacing: "0.08em",
             }}
             aria-label="Menu"
           >
-            {/* Grid icon */}
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-              <rect x="0" y="0" width="5.5" height="5.5" rx="0.5" />
-              <rect x="8.5" y="0" width="5.5" height="5.5" rx="0.5" />
-              <rect x="0" y="8.5" width="5.5" height="5.5" rx="0.5" />
-              <rect x="8.5" y="8.5" width="5.5" height="5.5" rx="0.5" />
+            {/* Grid icon — 4-square, exactly like beyond-aero */}
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+              <rect x="0"   y="0"   width="6" height="6" rx="0.5" />
+              <rect x="9"   y="0"   width="6" height="6" rx="0.5" />
+              <rect x="0"   y="9"   width="6" height="6" rx="0.5" />
+              <rect x="9"   y="9"   width="6" height="6" rx="0.5" />
             </svg>
             Menu
           </button>
