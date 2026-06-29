@@ -149,7 +149,7 @@ export default function HeroSection() {
             style={{
               background: "transparent",
               color: "var(--text-primary)",
-              border: "1px solid rgba(238,242,247,0.25)",
+              border: "1.5px solid rgba(238,242,247,0.45)",
               padding: "14px 20px",
               fontFamily: "var(--font-lato), Lato, sans-serif",
             }}
