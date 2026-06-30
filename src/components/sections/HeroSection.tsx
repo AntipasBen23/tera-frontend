@@ -36,9 +36,9 @@ const SECTIONS: Section[] = [
     cta: "Discover the Platform",
   },
   {
-    eyebrow: "Reactor Intelligence",
-    headline: ["AI Meets", "Biochemistry"],
-    body: "Our proprietary control system uses real-time AI to optimize enzyme conditions at every step — maximizing yield and purity, autonomously, at any scale.",
+    eyebrow: "Delivery Technology",
+    headline: ["Nano-Enhanced", "Ingredients"],
+    body: "Our nanotechnology modifies natural molecules to deliver higher stability, bioavailability, and performance — making nature's most potent compounds truly usable at scale.",
     cta: "See the Technology",
   },
   {
