@@ -171,7 +171,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
       <div
         className="md:hidden absolute left-0 right-0 z-10 flex flex-col items-center"
         style={{
-          top: "clamp(60px, 11vh, 100px)",
+          top: "clamp(90px, 16vh, 140px)",
           opacity: activeSection === 4 ? 1 : 0,
           transition: "opacity 0.8s ease",
           pointerEvents: "none",
