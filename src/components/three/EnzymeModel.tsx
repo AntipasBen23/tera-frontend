@@ -10,13 +10,14 @@ interface Props {
   mouseX: number;
   mouseY: number;
   scrollProgress: number;
+  modelPath: string;
 }
 
 const TARGET_SIZE = 2.4;
 
-export default function EnzymeModel({ assemblyProgress, mouseX, mouseY, scrollProgress }: Props) {
+export default function EnzymeModel({ assemblyProgress, mouseX, mouseY, scrollProgress, modelPath }: Props) {
   const groupRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF("/models/enzyme.glb");
+  const { scene } = useGLTF(modelPath);
 
   const idleAngle  = useRef(0);
   const targetRot  = useRef({ x: 0, y: 0 });
@@ -90,5 +91,13 @@ export default function EnzymeModel({ assemblyProgress, mouseX, mouseY, scrollPr
   );
 }
 
-useGLTF.preload("/models/enzyme.glb");
+// Preload all section models up front so switching is instant
+[
+  "/models/enzyme.glb",
+  "/models/platform.glb",
+  "/models/reactor.glb",
+  "/models/applications.glb",
+  "/models/investors.glb",
+].forEach((p) => useGLTF.preload(p));
+
 useGLTF.setDecoderPath("/draco/");
