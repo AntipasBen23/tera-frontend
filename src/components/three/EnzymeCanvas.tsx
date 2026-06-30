@@ -5,13 +5,24 @@ import { Canvas } from "@react-three/fiber";
 import EnzymeModel from "./EnzymeModel";
 import { useIsMobile, useIsReducedMotion } from "@/hooks/useIsMobile";
 
+const MODEL_PATHS: Record<number, string> = {
+  0: "/models/enzyme.glb",
+  1: "/models/platform.glb",
+  2: "/models/reactor.glb",
+  3: "/models/applications.glb",
+  // 4 = team section — canvas is hidden, photo shown instead
+  5: "/models/investors.glb",
+};
+
 interface Props {
   mouseX: number;
   mouseY: number;
   scrollProgress: number;
+  sectionIndex: number;
 }
 
-export default function EnzymeCanvas({ mouseX, mouseY, scrollProgress }: Props) {
+export default function EnzymeCanvas({ mouseX, mouseY, scrollProgress, sectionIndex }: Props) {
+  const modelPath = MODEL_PATHS[sectionIndex] ?? "/models/enzyme.glb";
   const [progress, setProgress] = useState(0);
   const rafId = useRef<number>(0);
   const startTime = useRef<number | null>(null);
@@ -70,10 +81,12 @@ export default function EnzymeCanvas({ mouseX, mouseY, scrollProgress }: Props) 
 
       <Suspense fallback={null}>
         <EnzymeModel
+          key={modelPath}
           assemblyProgress={progress}
           mouseX={reducedMotion ? 0 : mouseX}
           mouseY={reducedMotion ? 0 : mouseY}
           scrollProgress={scrollProgress}
+          modelPath={modelPath}
         />
       </Suspense>
     </Canvas>

@@ -140,7 +140,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         className="absolute inset-0 z-10"
         style={{ opacity: activeSection === 4 ? 0 : 1, transition: "opacity 0.8s ease" }}
       >
-        <EnzymeCanvas mouseX={mouse.x} mouseY={mouse.y} scrollProgress={scrollProg} />
+        <EnzymeCanvas mouseX={mouse.x} mouseY={mouse.y} scrollProgress={scrollProg} sectionIndex={activeSection} />
       </div>
 
       {/* Team photo — fades in on section 5 in place of the model */}
