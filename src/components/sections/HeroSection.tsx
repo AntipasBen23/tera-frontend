@@ -363,11 +363,11 @@ export default function HeroSection({ onScrollProgress }: Props) {
         >
           <div
             className="w-5 h-8 rounded-full border flex items-start justify-center pt-1.5"
-            style={{ borderColor: "rgba(238,242,247,0.2)" }}
+            style={{ borderColor: "rgba(238,242,247,0.55)" }}
           >
             <div className="w-px h-2 animate-bounce rounded-full" style={{ background: "var(--accent)" }} />
           </div>
-          <span className="text-mono" style={{ fontSize: "0.5rem", letterSpacing: "0.2em" }}>
+          <span className="text-mono" style={{ fontSize: "0.6rem", letterSpacing: "0.2em", color: "rgba(238,242,247,0.75)" }}>
             SCROLL
           </span>
         </div>
