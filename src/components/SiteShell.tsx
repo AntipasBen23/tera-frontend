@@ -157,16 +157,17 @@ export default function SiteShell() {
         />
       )}
 
-      {/* Mobile scroll progress bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 h-[2px]" style={{ background: "rgba(255,255,255,0.08)" }}>
-        <div
-          style={{
-            height: "100%",
-            width: `${scrollProgress * 100}%`,
-            background: "linear-gradient(90deg, var(--accent), #44C038)",
-            transition: "width 0.05s linear",
-          }}
-        />
+      {/* Mobile scroll indicator — section number + progress bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 flex items-center gap-2 px-4" style={{ paddingTop: "5px", paddingBottom: "7px" }}>
+        <span style={{ color: "var(--accent)", fontFamily: "var(--font-mono), monospace", fontSize: "0.6rem", letterSpacing: "0.12em", minWidth: "16px" }}>
+          {String(activeSection + 1).padStart(2, "0")}
+        </span>
+        <div style={{ flex: 1, height: "1.5px", background: "rgba(255,255,255,0.1)", position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", top: 0, left: 0, height: "100%", width: `${scrollProgress * 100}%`, background: "linear-gradient(90deg, var(--accent), #44C038)", transition: "width 0.06s linear" }} />
+        </div>
+        <span style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.6rem", letterSpacing: "0.12em" }}>
+          06
+        </span>
       </div>
 
       {/* Slide-out menu panel */}
@@ -209,6 +210,20 @@ export default function SiteShell() {
                 <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
+
+            <button
+              onClick={() => { toggleTheme(); setMenuOpen(false); }}
+              className="flex items-center gap-3 text-3xl font-bold text-black hover:text-gray-500 transition-colors duration-200"
+            >
+              {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                {theme === "dark" ? (
+                  <path d="M12 3v1m0 16v1M4.22 4.22l.71.71m12.73 12.73.71.71M3 12H2m20 0h-1M4.22 19.78l.71-.71M18.36 5.64l.71-.71M12 7a5 5 0 1 0 0 10A5 5 0 0 0 12 7z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                ) : (
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                )}
+              </svg>
+            </button>
           </nav>
 
           <div className="flex items-end justify-between pt-6 border-t border-gray-100">
