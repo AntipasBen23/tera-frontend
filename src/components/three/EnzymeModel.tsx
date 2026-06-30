@@ -91,3 +91,4 @@ export default function EnzymeModel({ assemblyProgress, mouseX, mouseY, scrollPr
 }
 
 useGLTF.preload("/models/enzyme.glb");
+useGLTF.setDecoderPath("/draco/");
