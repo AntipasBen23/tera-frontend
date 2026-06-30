@@ -56,7 +56,7 @@ const SECTIONS: Section[] = [
   {
     eyebrow: "Investors",
     headline: ["Partnering for a", "Biological Future"],
-    body: "We are backed by those who believe biology is the next great technology platform. Join us in reimagining how the world makes its most valuable molecules.",
+    body: "We are backed by those who believe nature's chemistry is the next great frontier. Join us in building a future where the world's most powerful molecules are accessible to all.",
     cta: "Get in Touch",
   },
 ];
