@@ -169,7 +169,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
 
       {/* Team photo — mobile: sits below header, above the content text */}
       <div
-        className="md:hidden absolute left-0 right-0 z-10 flex flex-col items-center"
+        className="md:hidden absolute left-0 right-0 z-[25] flex flex-col items-center"
         style={{
           top: "clamp(90px, 16vh, 140px)",
           opacity: activeSection === 4 ? 1 : 0,
@@ -180,9 +180,9 @@ export default function HeroSection({ onScrollProgress }: Props) {
         <img
           src="/images/team.jpg"
           alt="Amy Locks and Pedro Lovatt, tera co-founders"
-          style={{ width: "74vw", maxHeight: "28vh", height: "auto", objectFit: "contain", display: "block" }}
+          style={{ width: "86vw", maxHeight: "28vh", height: "auto", objectFit: "contain", display: "block" }}
         />
-        <div style={{ display: "flex", justifyContent: "space-between", width: "74vw", marginTop: "6px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", width: "86vw", marginTop: "6px" }}>
           <div>
             <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "12px", fontWeight: 700 }}>Amy Locks</p>
             <p style={{ color: "var(--accent)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "10px", letterSpacing: "0.05em" }}>Co-founder & CEO</p>
