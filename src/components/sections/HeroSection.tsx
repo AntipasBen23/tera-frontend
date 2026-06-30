@@ -25,32 +25,32 @@ const SECTIONS: Section[] = [
   {
     eyebrow: "Cell-Free Biomanufacturing",
     headline: ["Nature Works From", "First Principles"],
-    body: "The natural world produces the richest and most remarkable chemistry on earth. tera harnesses AI-designed enzymes to unlock it — delivering higher purity, potency, and performance than ever before.",
+    body: "The natural world produces the richest and most remarkable chemistry on earth. tera harnesses AI-designed enzymes to unlock it, delivering higher purity, potency, and performance than ever before.",
     cta: "Explore Now",
     ctaSecondary: "Our Research",
   },
   {
     eyebrow: "The Platform",
     headline: ["AI-Designed", "Enzymes"],
-    body: "We use artificial intelligence to design specific enzymes that react with powerful molecules from nature — unlocking ingredients with superior purity and potency for the next generation of products.",
+    body: "We use artificial intelligence to design specific enzymes that react with powerful molecules from nature, unlocking ingredients with superior purity and potency for the next generation of products.",
     cta: "Discover the Platform",
   },
   {
     eyebrow: "Delivery Technology",
     headline: ["Nano-Enhanced", "Ingredients"],
-    body: "Our nanotechnology modifies natural molecules to deliver higher stability, bioavailability, and performance — making nature's most potent compounds truly usable at scale.",
+    body: "Our nanotechnology modifies natural molecules to deliver higher stability, bioavailability, and performance, making nature's most potent compounds truly usable at scale.",
     cta: "See the Technology",
   },
   {
     eyebrow: "Applications",
     headline: ["Food. Cosmetics.", "Consumer Goods."],
-    body: "From antioxidant-rich pomegranate and coffee extracts to next-generation cosmetic actives — tera creates novel ingredients that perform where nature alone cannot.",
+    body: "From antioxidant-rich pomegranate and coffee extracts to next-generation cosmetic actives. tera creates novel ingredients that perform where nature alone cannot.",
     cta: "Explore Applications",
   },
   {
     eyebrow: "Our Team",
     headline: ["Scientists Who", "Think Different"],
-    body: "Built at the intersection of biochemistry, AI and nanotechnology — tera's founders bring deep expertise in enzyme design and novel ingredient development.",
+    body: "Built at the intersection of biochemistry, AI and nanotechnology. tera's founders bring deep expertise in enzyme design and novel ingredient development.",
     cta: "Meet the Team",
   },
   {
@@ -117,7 +117,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
       className="relative w-full overflow-hidden"
       style={{ height: "100dvh", touchAction: "pan-y" }}
     >
-      {/* Grid lines — static base + moving highlights */}
+      {/* Grid lines,static base + moving highlights */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-y-0 w-px" style={{ left: "17%", background: "rgba(255,255,255,0.05)" }} />
         <div className="absolute inset-y-0 w-px" style={{ left: "50%", background: "rgba(255,255,255,0.05)" }} />
@@ -135,7 +135,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         <div className="absolute h-px" style={{ left: 0, top: "83%", width: 150, background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideRight 6s linear infinite", animationDelay: "-2s" }} />
       </div>
 
-      {/* Full-screen 3D model — fades out on team section */}
+      {/* Full-screen 3D model,fades out on team section */}
       <div
         className="absolute inset-0 z-10"
         style={{ opacity: activeSection === 4 ? 0 : 1, transition: "opacity 0.8s ease" }}
@@ -143,7 +143,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         <EnzymeCanvas mouseX={mouse.x} mouseY={mouse.y} scrollProgress={scrollProg} sectionIndex={activeSection} />
       </div>
 
-      {/* Team photo — desktop */}
+      {/* Team photo,desktop */}
       <div
         className="hidden md:flex absolute inset-0 z-10 items-center justify-end"
         style={{ opacity: activeSection === 4 ? 1 : 0, transition: "opacity 0.8s ease", pointerEvents: "none" }}
@@ -167,7 +167,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         </div>
       </div>
 
-      {/* Team photo — mobile: sits below header, above the content text */}
+      {/* Team photo,mobile: sits below header, above the content text */}
       <div
         className="md:hidden absolute left-0 right-0 z-[25] flex flex-col items-center"
         style={{
@@ -200,7 +200,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         style={{ background: "linear-gradient(to top, var(--bg) 42%, rgba(0,0,0,0.45) 72%, transparent 100%)" }}
       />
 
-      {/* Left-to-right gradient — keeps text readable over full-bleed model */}
+      {/* Left-to-right gradient,keeps text readable over full-bleed model */}
       <div
         className="absolute inset-0 z-20 pointer-events-none"
         style={{
@@ -215,7 +215,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 30%)" }}
       />
 
-      {/* Content — key forces re-mount, CSS contentFadeIn fires on each section change */}
+      {/* Content,key forces re-mount, CSS contentFadeIn fires on each section change */}
       <div
         key={activeSection}
         className="absolute z-30"
@@ -314,7 +314,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         </div>
       </div>
 
-      {/* Scroll hint — only on first section */}
+      {/* Scroll hint,only on first section */}
       {activeSection === 0 && (
         <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2"

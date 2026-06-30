@@ -125,9 +125,27 @@ export default function SiteShell() {
 
       {/* Header */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end"
+        className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end gap-3"
         style={{ paddingTop: "clamp(20px, 3.5vh, 49px)", paddingRight: "clamp(16px, 5vw, 72px)" }}
       >
+        {/* Mobile theme toggle — visible in header so users can find it without opening the menu */}
+        <button
+          onClick={toggleTheme}
+          className="md:hidden flex items-center justify-center rounded-full active:scale-95 transition-transform"
+          style={{ width: "44px", height: "44px", border: "1px solid rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.06)" }}
+          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+        >
+          {theme === "dark" ? (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v1m0 16v1M4.22 4.22l.71.71m12.73 12.73.71.71M3 12H2m20 0h-1M4.22 19.78l.71-.71M18.36 5.64l.71-.71M12 7a5 5 0 1 0 0 10A5 5 0 0 0 12 7z" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+            </svg>
+          ) : (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#0D1520" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          )}
+        </button>
+
         <button
           onClick={() => setMenuOpen(true)}
           className="relative flex items-center gap-3 overflow-hidden rounded border border-white/30 group"
