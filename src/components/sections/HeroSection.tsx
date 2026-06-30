@@ -145,7 +145,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
 
       {/* Team photo — fades in on section 5 in place of the model */}
       <div
-        className="absolute inset-0 z-10 flex items-start md:items-center justify-center md:justify-end pt-20 md:pt-0"
+        className="absolute inset-0 z-10 flex items-start md:items-center justify-center md:justify-end pt-[16vh] md:pt-0"
         style={{
           opacity: activeSection === 4 ? 1 : 0,
           transition: "opacity 0.8s ease",
@@ -156,9 +156,9 @@ export default function HeroSection({ onScrollProgress }: Props) {
           <img
             src="/images/team.jpg"
             alt="Amy Locks and Pedro Lovatt, tera co-founders"
+            className="max-h-[38vh] md:max-h-[68vh]"
             style={{
               maxWidth: "min(82vw, 520px)",
-              maxHeight: "clamp(200px, 55vh, 68vh)",
               width: "auto",
               height: "auto",
               objectFit: "contain",
