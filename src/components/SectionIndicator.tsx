@@ -13,7 +13,7 @@ export default function SectionIndicator({ active, scrollProgress, onChange }: P
   return (
     <nav
       aria-label="Section navigation"
-      className="fixed bottom-14 right-24 z-50 hidden md:flex items-end gap-3"
+      className="fixed bottom-14 right-28 z-50 hidden md:flex items-end gap-3"
     >
       {/* Current section number */}
       <span
