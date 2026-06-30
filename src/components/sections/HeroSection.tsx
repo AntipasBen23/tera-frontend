@@ -180,9 +180,9 @@ export default function HeroSection({ onScrollProgress }: Props) {
         <img
           src="/images/team.jpg"
           alt="Amy Locks and Pedro Lovatt, tera co-founders"
-          style={{ width: "84vw", maxHeight: "44vh", height: "auto", objectFit: "contain", display: "block" }}
+          style={{ width: "74vw", maxHeight: "28vh", height: "auto", objectFit: "contain", display: "block" }}
         />
-        <div style={{ display: "flex", justifyContent: "space-between", width: "84vw", marginTop: "8px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", width: "74vw", marginTop: "6px" }}>
           <div>
             <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "12px", fontWeight: 700 }}>Amy Locks</p>
             <p style={{ color: "var(--accent)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "10px", letterSpacing: "0.05em" }}>Co-founder & CEO</p>
@@ -221,7 +221,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         className="absolute z-30"
         style={{
           left: "clamp(16px, 5vw, 72px)",
-          bottom: "clamp(70px, 8vh, 130px)",
+          bottom: "clamp(52px, 8vh, 130px)",
           width: "min(calc(100vw - clamp(32px, 10vw, 144px)), 500px)",
           animation: "contentFadeIn 0.45s ease forwards",
         }}
@@ -242,7 +242,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
           style={{
             color: "var(--text-primary)",
             fontFamily: "var(--font-lato), Lato, sans-serif",
-            fontSize: "clamp(22px, 5vw, 40px)",
+            fontSize: "clamp(16px, 5vw, 40px)",
             fontWeight: 700,
             lineHeight: 1.15,
             margin: "6px 0 0",
@@ -268,27 +268,27 @@ export default function HeroSection({ onScrollProgress }: Props) {
             maxWidth: "min(480px, 85vw)",
             color: "var(--text-secondary)",
             fontFamily: "var(--font-lato), Lato, sans-serif",
-            fontSize: "clamp(13px, 1.8vw, 16px)",
+            fontSize: "clamp(12px, 1.8vw, 16px)",
             fontWeight: 400,
-            lineHeight: 1.6,
-            marginTop: "clamp(14px, 2.5vh, 28px)",
-            marginBottom: "clamp(20px, 3.5vh, 40px)",
+            lineHeight: 1.5,
+            marginTop: "clamp(8px, 2vh, 28px)",
+            marginBottom: "clamp(10px, 2.5vh, 40px)",
           }}
         >
           {s.body}
         </p>
 
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
           <button
-            className="relative flex items-center gap-3 overflow-hidden group active:scale-95"
+            className="relative flex items-center gap-2 overflow-hidden group active:scale-95"
             style={{
               background: "#FFFFFF",
-              padding: "14px 20px",
+              padding: "clamp(9px, 1.3vh, 14px) clamp(13px, 1.5vw, 20px)",
               fontFamily: "var(--font-lato), Lato, sans-serif",
             }}
           >
             <div className="absolute inset-0 bg-[#070908] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-            <span className="relative z-10 flex items-center gap-3 text-sm font-semibold text-[#070908] group-hover:text-white transition-colors duration-300">
+            <span className="relative z-10 flex items-center gap-2 font-semibold text-[#070908] group-hover:text-white transition-colors duration-300" style={{ fontSize: "clamp(11px, 1.2vw, 14px)" }}>
               {s.cta}
               <ArrowIcon />
             </span>
@@ -296,16 +296,16 @@ export default function HeroSection({ onScrollProgress }: Props) {
 
           {s.ctaSecondary && (
             <button
-              className="relative flex items-center gap-3 overflow-hidden group active:scale-95"
+              className="relative flex items-center gap-2 overflow-hidden group active:scale-95"
               style={{
                 background: "transparent",
                 border: "1.5px solid rgba(238,242,247,0.45)",
-                padding: "14px 20px",
+                padding: "clamp(9px, 1.3vh, 14px) clamp(13px, 1.5vw, 20px)",
                 fontFamily: "var(--font-lato), Lato, sans-serif",
               }}
             >
               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-              <span className="relative z-10 flex items-center gap-3 text-sm font-semibold text-white group-hover:text-[#070908] transition-colors duration-300">
+              <span className="relative z-10 flex items-center gap-2 font-semibold text-white group-hover:text-[#070908] transition-colors duration-300" style={{ fontSize: "clamp(11px, 1.2vw, 14px)" }}>
                 {s.ctaSecondary}
                 <ArrowIcon />
               </span>
