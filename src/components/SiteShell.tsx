@@ -157,17 +157,24 @@ export default function SiteShell() {
         />
       )}
 
-      {/* Mobile scroll indicator — section number + progress bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 flex items-center gap-2 px-4" style={{ paddingTop: "5px", paddingBottom: "7px" }}>
-        <span style={{ color: "var(--accent)", fontFamily: "var(--font-mono), monospace", fontSize: "0.6rem", letterSpacing: "0.12em", minWidth: "16px" }}>
+      {/* Mobile scroll indicator — section number above, progress bar below */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 flex flex-col items-center" style={{ paddingBottom: "6px" }}>
+        <span
+          key={activeSection}
+          style={{
+            color: "var(--accent)",
+            fontFamily: "var(--font-mono), monospace",
+            fontSize: "0.58rem",
+            letterSpacing: "0.18em",
+            marginBottom: "4px",
+            animation: "contentFadeIn 0.3s ease forwards",
+          }}
+        >
           {String(activeSection + 1).padStart(2, "0")}
         </span>
-        <div style={{ flex: 1, height: "1.5px", background: "rgba(255,255,255,0.1)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 0, left: 0, height: "100%", width: `${scrollProgress * 100}%`, background: "linear-gradient(90deg, var(--accent), #44C038)", transition: "width 0.06s linear" }} />
+        <div style={{ width: "100%", height: "1.5px", background: "rgba(255,255,255,0.08)" }}>
+          <div style={{ height: "100%", width: `${scrollProgress * 100}%`, background: "linear-gradient(90deg, var(--accent), #44C038)", transition: "width 0.06s linear" }} />
         </div>
-        <span style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.6rem", letterSpacing: "0.12em" }}>
-          06
-        </span>
       </div>
 
       {/* Slide-out menu panel */}
