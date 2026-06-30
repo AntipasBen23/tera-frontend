@@ -31,8 +31,8 @@ const SECTIONS: Section[] = [
   },
   {
     eyebrow: "The Platform",
-    headline: ["Enzymes Engineered", "for Scale"],
-    body: "We design and optimize cell-free enzyme systems that convert raw biological inputs into high-value compounds — with precision and purity that living cells cannot match.",
+    headline: ["AI-Designed", "Enzymes"],
+    body: "We use artificial intelligence to design specific enzymes that react with powerful molecules from nature — unlocking ingredients with superior purity and potency for the next generation of products.",
     cta: "Discover the Platform",
   },
   {
