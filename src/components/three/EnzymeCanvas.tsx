@@ -10,7 +10,7 @@ const MODEL_PATHS: Record<number, string> = {
   1: "/models/platform.glb",
   2: "/models/reactor.glb",
   3: "/models/applications.glb",
-  // 4 = team section — canvas is hidden, photo shown instead
+  // 4 = team section — canvas hidden, photo shown instead
   5: "/models/investors.glb",
 };
 
@@ -22,13 +22,32 @@ interface Props {
 }
 
 export default function EnzymeCanvas({ mouseX, mouseY, scrollProgress, sectionIndex }: Props) {
-  const modelPath = MODEL_PATHS[sectionIndex] ?? "/models/enzyme.glb";
   const [progress, setProgress] = useState(0);
   const rafId = useRef<number>(0);
   const startTime = useRef<number | null>(null);
   const DURATION = 2000;
   const isMobile = useIsMobile();
   const reducedMotion = useIsReducedMotion();
+
+  // Progress within the current section: 0 → 1
+  const sectionLocalProgress = Math.min((scrollProgress * 6) - sectionIndex, 1);
+
+  // Start cross-fading to next model at 70% through each section
+  const transitionBlend = Math.max(0, Math.min(1, (sectionLocalProgress - 0.7) / 0.3));
+
+  // Current section grows slightly as you scroll through it
+  const currentScaleFactor = 1 + sectionLocalProgress * 0.18;
+  const currentOpacity = 1 - transitionBlend;
+
+  // Next model enters small and scales up
+  const nextScaleFactor = 0.65 + transitionBlend * 0.35;
+  const nextOpacity = transitionBlend;
+
+  const currentPath = MODEL_PATHS[sectionIndex] ?? "/models/enzyme.glb";
+  const nextIndex = Math.min(sectionIndex + 1, 5);
+  const nextPath = MODEL_PATHS[nextIndex] ?? currentPath;
+  // Don't show a 3D model for the team section (index 4)
+  const showNextModel = transitionBlend > 0.01 && nextIndex !== sectionIndex && nextIndex !== 4;
 
   useEffect(() => {
     if (reducedMotion) {
@@ -54,7 +73,6 @@ export default function EnzymeCanvas({ mouseX, mouseY, scrollProgress, sectionIn
     };
   }, [reducedMotion]);
 
-  // Mobile fallback — show a subtle radial glow instead of the 3D scene
   if (isMobile) {
     return (
       <div
@@ -79,16 +97,33 @@ export default function EnzymeCanvas({ mouseX, mouseY, scrollProgress, sectionIn
       <pointLight position={[-4, -3, 3]} intensity={0.7} color="#44C038" />
       <pointLight position={[0, -5, 2]}  intensity={0.3} color="#ffffff" />
 
+      {/* Current section model — zooms in and fades as section ends */}
       <Suspense fallback={null}>
         <EnzymeModel
-          key={modelPath}
           assemblyProgress={progress}
           mouseX={reducedMotion ? 0 : mouseX}
           mouseY={reducedMotion ? 0 : mouseY}
           scrollProgress={scrollProgress}
-          modelPath={modelPath}
+          modelPath={currentPath}
+          opacityFactor={currentOpacity}
+          scaleFactor={currentScaleFactor}
         />
       </Suspense>
+
+      {/* Next section model — fades in and scales up before the section switch */}
+      {showNextModel && (
+        <Suspense fallback={null}>
+          <EnzymeModel
+            assemblyProgress={1}
+            mouseX={reducedMotion ? 0 : mouseX}
+            mouseY={reducedMotion ? 0 : mouseY}
+            scrollProgress={scrollProgress}
+            modelPath={nextPath}
+            opacityFactor={nextOpacity}
+            scaleFactor={nextScaleFactor}
+          />
+        </Suspense>
+      )}
     </Canvas>
   );
 }

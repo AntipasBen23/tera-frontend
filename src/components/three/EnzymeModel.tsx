@@ -11,11 +11,16 @@ interface Props {
   mouseY: number;
   scrollProgress: number;
   modelPath: string;
+  opacityFactor?: number;
+  scaleFactor?: number;
 }
 
 const TARGET_SIZE = 2.4;
 
-export default function EnzymeModel({ assemblyProgress, mouseX, mouseY, scrollProgress, modelPath }: Props) {
+export default function EnzymeModel({
+  assemblyProgress, mouseX, mouseY, scrollProgress, modelPath,
+  opacityFactor = 1, scaleFactor = 1,
+}: Props) {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF(modelPath);
 
@@ -75,10 +80,10 @@ export default function EnzymeModel({ assemblyProgress, mouseX, mouseY, scrollPr
     groupRef.current.rotation.x = currentRot.current.x;
     groupRef.current.position.y = scrollDriftY;
 
-    // Assembly: scale up + fade in
+    // Assembly fade-in × section transition blend
     const eased = THREE.MathUtils.lerp(0.3, 1, assemblyProgress);
-    groupRef.current.scale.setScalar(normScale * eased);
-    materials.forEach((m) => { m.opacity = assemblyProgress; });
+    groupRef.current.scale.setScalar(normScale * eased * scaleFactor);
+    materials.forEach((m) => { m.opacity = assemblyProgress * opacityFactor; });
   });
 
   return (
