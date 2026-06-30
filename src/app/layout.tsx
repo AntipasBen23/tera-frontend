@@ -22,6 +22,11 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/tera_logo.jpg",
+    shortcut: "/tera_logo.jpg",
+    apple: "/tera_logo.jpg",
+  },
   title: "tera — Cell-Free Biomanufacturing from First Principles",
   description:
     "tera re-imagines how powerful molecules from nature are made, through cell-free biomanufacturing and AI-driven reactor intelligence. Faster, purer, at industrial scale.",
