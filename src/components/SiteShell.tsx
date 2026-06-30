@@ -107,7 +107,7 @@ export default function SiteShell() {
       </button>
 
       {/* Logo */}
-      <div className="fixed z-50" style={{ left: "72px", top: "55px" }} aria-label="Tera">
+      <div className="fixed z-50" style={{ left: "clamp(16px, 5vw, 72px)", top: "clamp(24px, 4vh, 55px)" }} aria-label="Tera">
         <span
           className="font-bold select-none"
           style={{
@@ -126,7 +126,7 @@ export default function SiteShell() {
       {/* Header */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-start justify-end"
-        style={{ paddingTop: "49px", paddingRight: "72px" }}
+        style={{ paddingTop: "clamp(20px, 3.5vh, 49px)", paddingRight: "clamp(16px, 5vw, 72px)" }}
       >
         <button
           onClick={() => setMenuOpen(true)}
@@ -156,6 +156,18 @@ export default function SiteShell() {
           onClick={() => setMenuOpen(false)}
         />
       )}
+
+      {/* Mobile scroll progress bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 h-[2px]" style={{ background: "rgba(255,255,255,0.08)" }}>
+        <div
+          style={{
+            height: "100%",
+            width: `${scrollProgress * 100}%`,
+            background: "linear-gradient(90deg, var(--accent), #44C038)",
+            transition: "width 0.05s linear",
+          }}
+        />
+      </div>
 
       {/* Slide-out menu panel */}
       <div

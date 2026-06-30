@@ -73,24 +73,12 @@ export default function EnzymeCanvas({ mouseX, mouseY, scrollProgress, sectionIn
     };
   }, [reducedMotion]);
 
-  if (isMobile) {
-    return (
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 60% at 50% 40%, rgba(0,220,180,0.12) 0%, transparent 70%)",
-        }}
-      />
-    );
-  }
-
   return (
     <Canvas
-      camera={{ position: [0, 0, 5], fov: 45 }}
-      gl={{ antialias: true, alpha: true }}
+      camera={{ position: [0, 0, isMobile ? 6.5 : 5], fov: isMobile ? 50 : 45 }}
+      gl={{ antialias: !isMobile, alpha: true }}
       style={{ background: "transparent" }}
-      dpr={[1, 1.5]}
+      dpr={isMobile ? [1, 1] : [1, 1.5]}
     >
       <ambientLight intensity={0.35} />
       <pointLight position={[5, 5, 5]}   intensity={1.4} color="#00B8CC" />

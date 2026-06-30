@@ -115,7 +115,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
     <section
       ref={sectionRef}
       className="relative w-full overflow-hidden"
-      style={{ height: "100dvh" }}
+      style={{ height: "100dvh", touchAction: "pan-y" }}
     >
       {/* Grid lines — static base + moving highlights */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -145,20 +145,20 @@ export default function HeroSection({ onScrollProgress }: Props) {
 
       {/* Team photo — fades in on section 5 in place of the model */}
       <div
-        className="absolute inset-0 z-10 hidden md:flex items-center justify-end"
+        className="absolute inset-0 z-10 flex items-start md:items-center justify-center md:justify-end pt-20 md:pt-0"
         style={{
           opacity: activeSection === 4 ? 1 : 0,
           transition: "opacity 0.8s ease",
           pointerEvents: "none",
         }}
       >
-        <div style={{ marginRight: "80px", display: "flex", flexDirection: "column", gap: "14px" }}>
+        <div style={{ marginRight: "clamp(0px, 5.5vw, 80px)", display: "flex", flexDirection: "column", gap: "14px", alignItems: "center" }}>
           <img
             src="/images/team.jpg"
             alt="Amy Locks and Pedro Lovatt, tera co-founders"
             style={{
-              maxWidth: "52vw",
-              maxHeight: "68vh",
+              maxWidth: "min(82vw, 520px)",
+              maxHeight: "clamp(200px, 55vh, 68vh)",
               width: "auto",
               height: "auto",
               objectFit: "contain",
@@ -178,6 +178,12 @@ export default function HeroSection({ onScrollProgress }: Props) {
         </div>
       </div>
 
+      {/* Mobile: full-screen gradient so content stays readable over the model */}
+      <div
+        className="md:hidden absolute inset-0 z-[15] pointer-events-none"
+        style={{ background: "linear-gradient(to top, var(--bg) 42%, rgba(0,0,0,0.45) 72%, transparent 100%)" }}
+      />
+
       {/* Left-to-right gradient — keeps text readable over full-bleed model */}
       <div
         className="absolute inset-0 z-20 pointer-events-none"
@@ -196,14 +202,19 @@ export default function HeroSection({ onScrollProgress }: Props) {
       {/* Content — key forces re-mount, CSS contentFadeIn fires on each section change */}
       <div
         key={activeSection}
-        className="absolute z-30 max-w-[500px]"
-        style={{ left: "72px", bottom: "130px", animation: "contentFadeIn 0.45s ease forwards" }}
+        className="absolute z-30"
+        style={{
+          left: "clamp(16px, 5vw, 72px)",
+          bottom: "clamp(70px, 8vh, 130px)",
+          width: "min(calc(100vw - clamp(32px, 10vw, 144px)), 500px)",
+          animation: "contentFadeIn 0.45s ease forwards",
+        }}
       >
         <p
           style={{
             color: "var(--accent)",
             fontFamily: "var(--font-lato), Lato, sans-serif",
-            fontSize: "18px",
+            fontSize: "clamp(12px, 3.5vw, 18px)",
             fontWeight: 400,
             marginBottom: "8px",
           }}
@@ -215,7 +226,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
           style={{
             color: "var(--text-primary)",
             fontFamily: "var(--font-lato), Lato, sans-serif",
-            fontSize: "32px",
+            fontSize: "clamp(22px, 5vw, 40px)",
             fontWeight: 700,
             lineHeight: 1.15,
             margin: "6px 0 0",
@@ -238,14 +249,14 @@ export default function HeroSection({ onScrollProgress }: Props) {
 
         <p
           style={{
-            maxWidth: "480px",
+            maxWidth: "min(480px, 85vw)",
             color: "var(--text-secondary)",
             fontFamily: "var(--font-lato), Lato, sans-serif",
-            fontSize: "16px",
+            fontSize: "clamp(13px, 1.8vw, 16px)",
             fontWeight: 400,
             lineHeight: 1.6,
-            marginTop: "28px",
-            marginBottom: "40px",
+            marginTop: "clamp(14px, 2.5vh, 28px)",
+            marginBottom: "clamp(20px, 3.5vh, 40px)",
           }}
         >
           {s.body}
