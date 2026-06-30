@@ -183,7 +183,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
         className="absolute inset-0 z-20 pointer-events-none"
         style={{
           background:
-            "linear-gradient(90deg, var(--bg) 20%, rgba(7,9,8,0.88) 38%, rgba(7,9,8,0.35) 56%, transparent 76%)",
+            "linear-gradient(90deg, var(--bg) 20%, var(--grad-mid) 38%, var(--grad-fade) 56%, transparent 76%)",
         }}
       />
 

@@ -7,6 +7,11 @@
   --surface-alt: #131C15;
   --border: rgba(0, 184, 204, 0.12);
 
+  /* Gradient overlay stops — dark mode */
+  --grad-mid: rgba(7,9,8,0.88);
+  --grad-fade: rgba(7,9,8,0.35);
+  --grad-bottom: rgba(7,9,8,1);
+
   --accent: #00B8CC;
   --accent-dim: rgba(0, 184, 204, 0.15);
   --accent-glow: rgba(0, 184, 204, 0.35);
@@ -28,6 +33,11 @@
 
 [data-theme="light"] {
   --bg: #F2F6F9;
+
+  /* Gradient overlay stops — light mode */
+  --grad-mid: rgba(242,246,249,0.88);
+  --grad-fade: rgba(242,246,249,0.35);
+  --grad-bottom: rgba(242,246,249,1);
   --bg-section: #F8FAFB;
   --surface: #FFFFFF;
   --surface-alt: #EEF3F7;
