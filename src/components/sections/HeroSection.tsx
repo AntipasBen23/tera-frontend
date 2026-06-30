@@ -25,7 +25,7 @@ const SECTIONS: Section[] = [
   {
     eyebrow: "Cell-Free Biomanufacturing",
     headline: ["Nature Works From", "First Principles"],
-    body: "Reimagining how the most powerful molecules are made. A cell-free platform harnessing enzyme engineering to produce nature's most valuable compounds — faster and purer than ever.",
+    body: "The natural world produces the richest and most remarkable chemistry on earth. tera harnesses AI-designed enzymes to unlock it — delivering higher purity, potency, and performance than ever before.",
     cta: "Explore Now",
     ctaSecondary: "Our Research",
   },
