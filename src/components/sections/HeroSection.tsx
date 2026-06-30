@@ -143,27 +143,16 @@ export default function HeroSection({ onScrollProgress }: Props) {
         <EnzymeCanvas mouseX={mouse.x} mouseY={mouse.y} scrollProgress={scrollProg} sectionIndex={activeSection} />
       </div>
 
-      {/* Team photo — fades in on section 5 in place of the model */}
+      {/* Team photo — desktop */}
       <div
-        className="absolute inset-0 z-10 flex items-start md:items-center justify-center md:justify-end pt-[16vh] md:pt-0"
-        style={{
-          opacity: activeSection === 4 ? 1 : 0,
-          transition: "opacity 0.8s ease",
-          pointerEvents: "none",
-        }}
+        className="hidden md:flex absolute inset-0 z-10 items-center justify-end"
+        style={{ opacity: activeSection === 4 ? 1 : 0, transition: "opacity 0.8s ease", pointerEvents: "none" }}
       >
-        <div style={{ marginRight: "clamp(0px, 5.5vw, 80px)", display: "flex", flexDirection: "column", gap: "14px", alignItems: "center" }}>
+        <div style={{ marginRight: "80px", display: "flex", flexDirection: "column", gap: "14px" }}>
           <img
             src="/images/team.jpg"
             alt="Amy Locks and Pedro Lovatt, tera co-founders"
-            className="max-h-[38vh] md:max-h-[68vh]"
-            style={{
-              maxWidth: "min(82vw, 520px)",
-              width: "auto",
-              height: "auto",
-              objectFit: "contain",
-              display: "block",
-            }}
+            style={{ maxWidth: "52vw", maxHeight: "68vh", width: "auto", height: "auto", objectFit: "contain", display: "block" }}
           />
           <div style={{ display: "flex", justifyContent: "space-between", gap: "40px" }}>
             <div>
@@ -174,6 +163,33 @@ export default function HeroSection({ onScrollProgress }: Props) {
               <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "13px", fontWeight: 700 }}>Pedro Lovatt</p>
               <p style={{ color: "var(--accent)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "11px", letterSpacing: "0.05em" }}>Co-founder & CTO</p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Team photo — mobile: sits below header, above the content text */}
+      <div
+        className="md:hidden absolute left-0 right-0 z-10 flex flex-col items-center"
+        style={{
+          top: "clamp(60px, 11vh, 100px)",
+          opacity: activeSection === 4 ? 1 : 0,
+          transition: "opacity 0.8s ease",
+          pointerEvents: "none",
+        }}
+      >
+        <img
+          src="/images/team.jpg"
+          alt="Amy Locks and Pedro Lovatt, tera co-founders"
+          style={{ width: "84vw", maxHeight: "44vh", height: "auto", objectFit: "contain", display: "block" }}
+        />
+        <div style={{ display: "flex", justifyContent: "space-between", width: "84vw", marginTop: "8px" }}>
+          <div>
+            <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "12px", fontWeight: 700 }}>Amy Locks</p>
+            <p style={{ color: "var(--accent)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "10px", letterSpacing: "0.05em" }}>Co-founder & CEO</p>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "12px", fontWeight: 700 }}>Pedro Lovatt</p>
+            <p style={{ color: "var(--accent)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "10px", letterSpacing: "0.05em" }}>Co-founder & CTO</p>
           </div>
         </div>
       </div>
