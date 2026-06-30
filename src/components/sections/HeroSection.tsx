@@ -70,6 +70,16 @@ export default function HeroSection({ onScrollProgress }: Props) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [activeSection, setActiveSection] = useState(0);
   const [scrollProg, setScrollProg] = useState(0);
+  const [toast, setToast] = useState(false);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showComingSoon = () => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast(true);
+    toastTimer.current = setTimeout(() => setToast(false), 2400);
+  };
+
+  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -280,6 +290,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
 
         <div className="flex items-center gap-3 flex-wrap">
           <button
+            onClick={showComingSoon}
             className="relative flex items-center gap-2 overflow-hidden group active:scale-95"
             style={{
               background: "#FFFFFF",
@@ -296,6 +307,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
 
           {s.ctaSecondary && (
             <button
+              onClick={showComingSoon}
               className="relative flex items-center gap-2 overflow-hidden group active:scale-95"
               style={{
                 background: "transparent",
@@ -314,7 +326,36 @@ export default function HeroSection({ onScrollProgress }: Props) {
         </div>
       </div>
 
-      {/* Scroll hint,only on first section */}
+      {/* Coming Soon toast */}
+      {toast && (
+        <div
+          className="fixed left-1/2 z-[100] pointer-events-none"
+          style={{
+            bottom: "clamp(80px, 12vh, 120px)",
+            transform: "translateX(-50%)",
+            background: "var(--surface)",
+            border: "1px solid var(--border)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            padding: "12px 32px",
+            animation: "contentFadeIn 0.3s ease forwards",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <span style={{
+            color: "var(--accent)",
+            fontFamily: "var(--font-lato), Lato, sans-serif",
+            fontSize: "11px",
+            fontWeight: 700,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+          }}>
+            Coming Soon
+          </span>
+        </div>
+      )}
+
+      {/* Scroll hint, only on first section */}
       {activeSection === 0 && (
         <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2"
