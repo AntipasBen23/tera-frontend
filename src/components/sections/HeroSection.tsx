@@ -50,7 +50,7 @@ const SECTIONS: Section[] = [
   {
     eyebrow: "Our Team",
     headline: ["Scientists Who", "Think Different"],
-    body: "Built at the intersection of biochemistry, machine learning and engineering — tera brings deep expertise from the world's leading research institutions and biotech companies.",
+    body: "Built at the intersection of biochemistry, AI and nanotechnology — tera's founders bring deep expertise in enzyme design and novel ingredient development.",
     cta: "Meet the Team",
   },
   {
