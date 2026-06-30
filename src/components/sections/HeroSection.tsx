@@ -43,8 +43,8 @@ const SECTIONS: Section[] = [
   },
   {
     eyebrow: "Applications",
-    headline: ["One Platform,", "Five Markets"],
-    body: "From life-saving pharmaceuticals to sustainable materials, tera's platform unlocks production of the most complex molecules across the industries that matter most.",
+    headline: ["Food. Cosmetics.", "Consumer Goods."],
+    body: "From antioxidant-rich pomegranate and coffee extracts to next-generation cosmetic actives — tera creates novel ingredients that perform where nature alone cannot.",
     cta: "Explore Applications",
   },
   {
