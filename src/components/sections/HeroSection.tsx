@@ -135,9 +135,47 @@ export default function HeroSection({ onScrollProgress }: Props) {
         <div className="absolute h-px" style={{ left: 0, top: "83%", width: 150, background: "linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent)", animation: "slideRight 6s linear infinite", animationDelay: "-2s" }} />
       </div>
 
-      {/* Full-screen 3D model */}
-      <div className="absolute inset-0 z-10">
+      {/* Full-screen 3D model — fades out on team section */}
+      <div
+        className="absolute inset-0 z-10"
+        style={{ opacity: activeSection === 4 ? 0 : 1, transition: "opacity 0.8s ease" }}
+      >
         <EnzymeCanvas mouseX={mouse.x} mouseY={mouse.y} scrollProgress={scrollProg} />
+      </div>
+
+      {/* Team photo — fades in on section 5 in place of the model */}
+      <div
+        className="absolute inset-0 z-10 hidden md:flex items-center justify-end"
+        style={{
+          opacity: activeSection === 4 ? 1 : 0,
+          transition: "opacity 0.8s ease",
+          pointerEvents: "none",
+        }}
+      >
+        <div style={{ marginRight: "80px", display: "flex", flexDirection: "column", gap: "14px" }}>
+          <img
+            src="/images/team.jpg"
+            alt="Amy Locks and Pedro Lovatt, tera co-founders"
+            style={{
+              maxWidth: "52vw",
+              maxHeight: "68vh",
+              width: "auto",
+              height: "auto",
+              objectFit: "contain",
+              display: "block",
+            }}
+          />
+          <div style={{ display: "flex", justifyContent: "space-between", gap: "40px" }}>
+            <div>
+              <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "13px", fontWeight: 700 }}>Amy Locks</p>
+              <p style={{ color: "var(--accent)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "11px", letterSpacing: "0.05em" }}>Co-founder & CEO</p>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "13px", fontWeight: 700 }}>Pedro Lovatt</p>
+              <p style={{ color: "var(--accent)", fontFamily: "var(--font-lato), Lato, sans-serif", fontSize: "11px", letterSpacing: "0.05em" }}>Co-founder & CTO</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Left-to-right gradient — keeps text readable over full-bleed model */}
