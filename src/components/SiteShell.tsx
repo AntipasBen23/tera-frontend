@@ -107,7 +107,7 @@ export default function SiteShell() {
       </button>
 
       {/* Logo */}
-      <div className="fixed z-50" style={{ left: "72px", top: "55px" }} aria-label="tera">
+      <div className="fixed z-50" style={{ left: "72px", top: "55px" }} aria-label="Tera">
         <span
           className="font-bold select-none"
           style={{
@@ -119,7 +119,7 @@ export default function SiteShell() {
             letterSpacing: "0.28em",
           }}
         >
-          tera
+          Tera
         </span>
       </div>
 
