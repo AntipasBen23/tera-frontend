@@ -358,7 +358,7 @@ export default function HeroSection({ onScrollProgress }: Props) {
       {/* Scroll hint, only on first section */}
       {activeSection === 0 && (
         <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 hidden md:flex flex-col items-center gap-2"
           style={{ color: "var(--text-muted)" }}
         >
           <div
