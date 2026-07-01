@@ -23,6 +23,16 @@
   --text-secondary: #7A8FA6;
   --text-muted: #3D5166;
 
+  /* Button tokens */
+  --btn-solid-bg: #FFFFFF;
+  --btn-solid-text: #070908;
+  --btn-solid-fill: #070908;
+  --btn-solid-fill-text: #FFFFFF;
+  --btn-ghost-border: rgba(238,242,247,0.45);
+  --btn-ghost-text: #EEF2F7;
+  --btn-ghost-fill: #FFFFFF;
+  --btn-ghost-fill-text: #070908;
+
   --font-display: var(--font-geist-sans);
   --font-body: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -52,6 +62,16 @@
   --text-primary: #0D1520;
   --text-secondary: #4A6078;
   --text-muted: #8EA5BE;
+
+  /* Button tokens — light mode */
+  --btn-solid-bg: #0D1520;
+  --btn-solid-text: #FFFFFF;
+  --btn-solid-fill: #F2F6F9;
+  --btn-solid-fill-text: #0D1520;
+  --btn-ghost-border: rgba(13,21,32,0.35);
+  --btn-ghost-text: #0D1520;
+  --btn-ghost-fill: #0D1520;
+  --btn-ghost-fill-text: #FFFFFF;
 }
 
 @theme inline {
@@ -200,6 +220,19 @@ body {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0);    }
 }
+
+/* Theme-aware button label colours — driven by CSS variables so light/dark mode flips automatically */
+.btn-solid-label {
+  color: var(--btn-solid-text);
+  transition: color 0.3s;
+}
+.group:hover .btn-solid-label { color: var(--btn-solid-fill-text); }
+
+.btn-ghost-label {
+  color: var(--btn-ghost-text);
+  transition: color 0.3s;
+}
+.group:hover .btn-ghost-label { color: var(--btn-ghost-fill-text); }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

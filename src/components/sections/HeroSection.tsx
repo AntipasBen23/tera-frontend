@@ -293,13 +293,13 @@ export default function HeroSection({ onScrollProgress }: Props) {
             onClick={showComingSoon}
             className="relative flex items-center gap-2 overflow-hidden group active:scale-95"
             style={{
-              background: "#FFFFFF",
+              background: "var(--btn-solid-bg)",
               padding: "clamp(9px, 1.3vh, 14px) clamp(13px, 1.5vw, 20px)",
               fontFamily: "var(--font-lato), Lato, sans-serif",
             }}
           >
-            <div className="absolute inset-0 bg-[#070908] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-            <span className="relative z-10 flex items-center gap-2 font-semibold text-[#070908] group-hover:text-white transition-colors duration-300" style={{ fontSize: "clamp(11px, 1.2vw, 14px)" }}>
+            <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ background: "var(--btn-solid-fill)" }} />
+            <span className="btn-solid-label relative z-10 flex items-center gap-2 font-semibold" style={{ fontSize: "clamp(11px, 1.2vw, 14px)" }}>
               {s.cta}
               <ArrowIcon />
             </span>
@@ -311,13 +311,13 @@ export default function HeroSection({ onScrollProgress }: Props) {
               className="relative flex items-center gap-2 overflow-hidden group active:scale-95"
               style={{
                 background: "transparent",
-                border: "1.5px solid rgba(238,242,247,0.45)",
+                border: "1.5px solid var(--btn-ghost-border)",
                 padding: "clamp(9px, 1.3vh, 14px) clamp(13px, 1.5vw, 20px)",
                 fontFamily: "var(--font-lato), Lato, sans-serif",
               }}
             >
-              <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-              <span className="relative z-10 flex items-center gap-2 font-semibold text-white group-hover:text-[#070908] transition-colors duration-300" style={{ fontSize: "clamp(11px, 1.2vw, 14px)" }}>
+              <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" style={{ background: "var(--btn-ghost-fill)" }} />
+              <span className="btn-ghost-label relative z-10 flex items-center gap-2 font-semibold" style={{ fontSize: "clamp(11px, 1.2vw, 14px)" }}>
                 {s.ctaSecondary}
                 <ArrowIcon />
               </span>
