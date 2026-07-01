@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     shortcut: "/tera_logo.jpg",
     apple: "/tera_logo.jpg",
   },
-  title: "tera — Cell-Free Biomanufacturing from First Principles",
+  title: "tera: Cell-Free Biomanufacturing from First Principles",
   description:
     "tera re-imagines how powerful molecules from nature are made, through cell-free biomanufacturing and AI-driven reactor intelligence. Faster, purer, at industrial scale.",
   keywords: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "biocatalysis",
   ],
   openGraph: {
-    title: "tera — Cell-Free Biomanufacturing from First Principles",
+    title: "tera: Cell-Free Biomanufacturing from First Principles",
     description:
       "Re-imagining how powerful molecules from nature are made, from first principles.",
     type: "website",
